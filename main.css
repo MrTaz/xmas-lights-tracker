@@ -1,6 +1,6 @@
-* {
+/* * {
   box-sizing: border-box;
-}
+} */
 #map-canvas { height: 100% }
 /* #container {
   position: relative; */
@@ -18,18 +18,18 @@
   object-fit: contain;
 } */
 
-#pin {
+/* #pin {
   position: absolute;
   width: 8px;
   height: 8px;
   background-color: red;
   transition: all 0.5s;
   transform: translate(-50%, -50%);
-}
+} */
 
-body>* {
+/* body>* {
   margin-bottom: 1em;
-}
+} */
 
 .color--gray {
   color: gray;
