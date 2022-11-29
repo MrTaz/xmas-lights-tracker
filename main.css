@@ -1,0 +1,108 @@
+* {
+  box-sizing: border-box;
+}
+#map-canvas { height: 100% }
+#container {
+  position: relative;
+  left: 100px;
+  width: 500px;
+  height: 300px;
+  border: 1px black solid;
+  overflow: hidden;
+  background-color: #eee;
+  cursor: pointer;
+}
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#pin {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  transition: all 0.5s;
+  transform: translate(-50%, -50%);
+}
+
+body>* {
+  margin-bottom: 1em;
+}
+
+.color--gray {
+  color: gray;
+}
+
+.star-rating {
+  line-height:32px;
+  font-size:1.25em;
+}
+
+.star-rating .fa-star {
+	color: black;
+}
+
+
+.light-types{
+	text-align: center;
+	padding-top: 5px;
+}
+.light-types input{
+    margin: 0;
+		padding: 0;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+.type-flat{
+		background-repeat: no-repeat;
+  	background-position: center center;
+		background-image: url(https://images.thdstatic.com/productImages/ac97fe43-b862-44ad-b1f4-f30553b2261a/svn/wintergreen-lighting-christmas-light-bulbs-72613-64_600.jpg);
+}
+.type-musical{
+		background-size: auto 32px !important;
+		background-repeat: no-repeat;
+  	background-position: center center;
+		background-image: url(https://thumbs.dreamstime.com/b/glowing-neon-music-notes-rainbow-colors-placed-black-glossy-background-concept-party-celebration-reflection-bottom-178448916.jpg);
+}
+.type-commercial{
+		background-size: auto 32px !important;
+		background-repeat: no-repeat;
+  	background-position: center center;
+		background-image: url(https://cdn.cnsnews.com/styles/pull_image/s3/2021-03/Dollar%20Sign_YouTube-Javier%20Velasco%20Barrero.jpg?itok=eAZjheq3);
+}
+.type-animated{
+		background-size: auto 32px !important;
+		background-repeat: no-repeat;
+  	background-position: center center;
+		background-image: url(https://phoneky.co.uk/thumbs/screensavers/down/seasonal/dancinglig_C6wW9KI4.gif)
+}
+.light-type{
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 32px;
+		height: 32px;
+    -webkit-transition: all 100ms ease-in;
+       -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.8) grayscale(1) opacity(0.7);
+       -moz-filter: brightness(1.8) grayscale(1) opacity(0.7);
+            filter: brightness(1.8) grayscale(1) opacity(0.7);
+}
+.light-type:hover{
+    -webkit-filter: brightness(1.2) grayscale(0.0) opacity(1);
+       -moz-filter: brightness(1.2) grayscale(0.0) opacity(1);
+            filter: brightness(1.2) grayscale(0.0) opacity(1);
+}
+.light-types input:active + .light-type{
+		opacity: 0.9;
+}
+.light-types input:checked + .light-type{
+    -webkit-filter: none;
+       -moz-filter: none;
+            filter: none;
+}
