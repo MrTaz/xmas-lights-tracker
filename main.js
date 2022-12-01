@@ -245,8 +245,10 @@ window.pinner = new Pinner({
 
 /* console.log(window) */
 let map; //: google.maps.Map;
+let mapInitialized = false;
 let newMapMarkerCounter = -1;
 let newMapMarkers = [];
+let userMarker; //: google.maps.Marker
 /* let center: getMyLocation; */
 
 function showError(error) {
@@ -278,11 +280,13 @@ function displayLocation(position) {
   //Also setting the latitude and longitude values in another div.
   let div = document.getElementById('location');
   div.innerHTML = 'You are at Latitude: ' + latitude + ', Longitude: ' + longitude;
-
-  initMap(latLng);
-	createMarker(latLng);
+  if(!mapInitialized){
+    initMap(latLng);
+    createMarker(latLng, "", true);
+  }else{
+    updateMarkerLocation(latLng);
+  }
 }
-
 
 function getMyLocation() {
   if (navigator.geolocation) {
@@ -299,12 +303,15 @@ function initMap(center) {
     center,
     zoom: 16
   });
+  mapInitialized = true;
 	map.addListener("click", (mapsMouseEvent) => {
 		createMarker(mapsMouseEvent.latLng);
 	});
 }
-
-function createMarker(latLng, placeResult) {
+function updateMarkerLocation(latLng) {
+  userMarker.setPosition(latLng)
+}
+function createMarker(latLng, placeResult, isUserMarker) {
 	newMapMarkerCounter++;
   let markerOptions = {
     position: latLng,
@@ -314,7 +321,26 @@ function createMarker(latLng, placeResult) {
 		id: newMapMarkerCounter
   };
   //Setting up the marker object to mark the location on the map canvas.
-  let marker = new google.maps.Marker(markerOptions);
+  let marker;
+  if(isUserMarker && !userMarker){
+    userMarker = new google.maps.Marker({
+      position: latLng,
+      map: map,
+      animation: google.maps.Animation.BOUNCE,
+      clickable: false,
+      label: {
+        text: "\ue509", // codepoint from 
+        fontFamily: "Material Icons",
+        color: "#3734eb",
+        fontSize: "18px",
+      },
+      title: "You",
+      id: newMapMarkerCounter
+    });
+    newMapMarkers.push(userMarker);
+  }else{
+    marker = new google.maps.Marker(markerOptions);
+  }
   if (placeResult) {
     let content = placeResult.name+'<br/>'+placeResult.vicinity+'<br/>'+placeResult.types;
     addInfoWindow(marker, latLng, content);
