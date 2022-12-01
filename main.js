@@ -498,5 +498,4 @@ function addInfoWindow(marker, latLng, content) {
 	});
 }
 
-window.initMap = getMyLocation();
-// window.initMap = initMap;
+// window.onload = getMyLocation();
