@@ -326,10 +326,10 @@ function createMarker(latLng, placeResult, isUserMarker) {
     userMarker = new google.maps.Marker({
       position: latLng,
       map: map,
-      animation: google.maps.Animation.BOUNCE,
+      animation: google.maps.Animation.DROP,
       clickable: false,
       label: {
-        text: "\ue509", // codepoint from 
+        text: "\e509", // codepoint from 
         fontFamily: "Material Icons",
         color: "#3734eb",
         fontSize: "18px",
