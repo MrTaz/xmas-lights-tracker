@@ -243,13 +243,11 @@ window.pinner = new Pinner({
   props: {}
 }); */
 
-/* console.log(window) */
 let map; //: google.maps.Map;
 let mapInitialized = false;
 let newMapMarkerCounter = -1;
 let newMapMarkers = [];
 let userMarker; //: google.maps.Marker
-/* let center: getMyLocation; */
 
 function showError(error) {
   switch(error.code) {
@@ -320,13 +318,6 @@ function createMarker(latLng, placeResult, isUserMarker) {
       animation: google.maps.Animation.DROP,
       clickable: false,
       icon: "https://icons.iconarchive.com/icons/iconka/santa-stickers/32/santa-reindeer-icon.png",
-      // icon: "./santa-clauss-reindeer-sleigh.png",
-      // label: {
-      //   text: "\e509", // codepoint from 
-      //   fontFamily: "Material Icons",
-      //   color: "#3734eb",
-      //   fontSize: "18px",
-      // },
       title: "You",
       id: newMapMarkerCounter
     });
@@ -337,7 +328,7 @@ function createMarker(latLng, placeResult, isUserMarker) {
       map: map,
       animation: google.maps.Animation.DROP,
       clickable: true,
-      draggable: true,
+      // draggable: true,
       id: newMapMarkerCounter
     };
     //Setting up the marker object to mark the location on the map canvas.
@@ -497,5 +488,3 @@ function addInfoWindow(marker, latLng, content) {
 		setRatingStar(marker.id);
 	});
 }
-
-// window.onload = getMyLocation();
