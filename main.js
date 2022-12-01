@@ -328,11 +328,8 @@ function createMarker(latLng, placeResult, isUserMarker) {
       map: map,
       animation: google.maps.Animation.DROP,
       clickable: false,
-      icon: {
-        url: "./santa-clauss-reindeer-sleigh.png",
-        strokeColor: "red",
-        scale: 3
-      },
+      icon: "https://icons.iconarchive.com/icons/iconka/santa-stickers/32/santa-reindeer-icon.png"
+      // icon: "./santa-clauss-reindeer-sleigh.png",
       // label: {
       //   text: "\e509", // codepoint from 
       //   fontFamily: "Material Icons",
