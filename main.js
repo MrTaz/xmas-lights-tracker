@@ -313,16 +313,7 @@ function updateMarkerLocation(latLng) {
 }
 function createMarker(latLng, placeResult, isUserMarker) {
 	newMapMarkerCounter++;
-  let markerOptions = {
-    position: latLng,
-    map: map,
-    animation: google.maps.Animation.DROP,
-    clickable: true,
-		id: newMapMarkerCounter
-  };
-  //Setting up the marker object to mark the location on the map canvas.
-  let marker;
-  if(isUserMarker && !userMarker){
+  if (isUserMarker && !userMarker) {
     userMarker = new google.maps.Marker({
       position: latLng,
       map: map,
@@ -340,38 +331,45 @@ function createMarker(latLng, placeResult, isUserMarker) {
       id: newMapMarkerCounter
     });
     newMapMarkers.push(userMarker);
-  }else{
-    marker = new google.maps.Marker(markerOptions);
+  } else {
+    let markerOptions = {
+      position: latLng,
+      map: map,
+      animation: google.maps.Animation.DROP,
+      clickable: true,
+      draggable: true,
+      id: newMapMarkerCounter
+    };
+    //Setting up the marker object to mark the location on the map canvas.
+    let marker = new google.maps.Marker(markerOptions);
+    if (placeResult) {
+      let content = placeResult.name+'<br/>'+placeResult.vicinity+'<br/>'+placeResult.types;
+      addInfoWindow(marker, latLng, content);
+      newMapMarkers.push(marker);
+    } else { 
+      // console.log(`Receieved latLng:`, latLng.lat(), latLng.lng());
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latLng.lat()}&lon=${latLng.lng()}&namedetails=1`)
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log(`Found address info:`, data);
+          let address = {
+            house_num: data.address.house_number,
+            street: data.address.road,
+            city: data.address.village,
+            state: data.address.state
+          };
+          let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
+          let content = `Adding location: <br/>
+            ${address.house_num} ${address.street}, <br/>
+            ${address.city}, ${address.state} <br/>
+            ${removeMakerLink} <br />
+            ${getStarComponent(newMapMarkerCounter)}<br />
+            ${inputForm(newMapMarkerCounter)}`;
+          addInfoWindow(marker, latLng, content);
+          newMapMarkers.push(marker);
+        }); 
+    }
   }
-  if (placeResult) {
-    let content = placeResult.name+'<br/>'+placeResult.vicinity+'<br/>'+placeResult.types;
-    addInfoWindow(marker, latLng, content);
-		newMapMarkers.push(marker);
-  } else { 
-   	// console.log(`Receieved latLng:`, latLng.lat(), latLng.lng());
-  	fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latLng.lat()}&lon=${latLng.lng()}&namedetails=1`)
-  		.then((response) => response.json())
-  		.then((data) => {
-  			// console.log(`Found address info:`, data);
-  		  let address = {
-  		  	house_num: data.address.house_number,
-  		  	street: data.address.road,
-  		  	city: data.address.village,
-  		  	state: data.address.state
-  		  };
-				let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
-  		  let content = `Adding location: <br/>
-  		  	${address.house_num} ${address.street}, <br/>
-  		  	${address.city}, ${address.state} <br/>
-					${removeMakerLink} <br />
-					${getStarComponent(newMapMarkerCounter)}<br />
-					${inputForm(newMapMarkerCounter)}`;
-  			addInfoWindow(marker, latLng, content);
-				newMapMarkers.push(marker);
-  		}); 
-    //var content = 'You are here: ' + latLng.lat() + ', ' + latLng.lng();
-    //addInfoWindow(marker, latLng, content);
-	}
 }
 function inputForm(markerId){
 	let inputFormHtml = `<form id="entry-form-${markerId}" action="">
