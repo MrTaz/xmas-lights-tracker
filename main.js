@@ -328,12 +328,13 @@ function createMarker(latLng, placeResult, isUserMarker) {
       map: map,
       animation: google.maps.Animation.DROP,
       clickable: false,
-      label: {
-        text: "\e509", // codepoint from 
-        fontFamily: "Material Icons",
-        color: "#3734eb",
-        fontSize: "18px",
-      },
+      icon: "./santa-clauss-reindeer-sleigh.png",
+      // label: {
+      //   text: "\e509", // codepoint from 
+      //   fontFamily: "Material Icons",
+      //   color: "#3734eb",
+      //   fontSize: "18px",
+      // },
       title: "You",
       id: newMapMarkerCounter
     });
