@@ -353,8 +353,8 @@ function createMarker(latLng, placeResult, isUserMarker) {
           let content = `Adding location: <br/>
             ${address.house_num} ${address.street}, <br/>
             ${address.city}, ${address.state} <br/>
-            ${removeMakerLink} <br />
-            ${getStarComponent(newMapMarkerCounter)}<br />
+            <p>${removeMakerLink}</p>
+            ${getStarComponent(newMapMarkerCounter)}
             ${inputForm(newMapMarkerCounter)}`;
           addInfoWindow(marker, latLng, content);
           newMapMarkers.push(marker);
@@ -387,7 +387,7 @@ function getStarComponent(markerId){
 	let starHtml = `<div id="rating-el-${markerId}">
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="star-rating">
+				<div class="star-rating text-center pt-2">
 					<span class="bi bi-star" data-rating="1"></span>
 					<span class="bi bi-star" data-rating="2"></span>
 					<span class="bi bi-star" data-rating="3"></span>
