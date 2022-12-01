@@ -266,7 +266,17 @@ function showError(error) {
   }
 }
 
-
+function storeData(data){
+  const kvdmyid = "85Yy1wkuhcNGkUeytKifN3";
+  const kvdbStorage = KVdb.bucket('MY_BUCKET_ID').localStorage()
+  ${address.house_num} ${address.street}, <br/>
+  ${address.city}, ${address.state} <br/>
+  kvdbStorage.setItem('address', 'my-value')
+    .then(() => console.log('key saved')
+    .then(() => kvdbStorage.getItem('my-key'))
+    .then(value => console.log('get value', value))
+    .catch(err => console.error(err)
+}
 //This function is inokved asynchronously by the HTML5 geolocation API.
 function displayLocation(position) {
   //The latitude and longitude values obtained from HTML 5 API.
@@ -358,6 +368,7 @@ function createMarker(latLng, placeResult, isUserMarker) {
             ${inputForm(newMapMarkerCounter)}`;
           addInfoWindow(marker, latLng, content);
           newMapMarkers.push(marker);
+          storeData({...address,"houseId":newMapMarkerCounter});
         }); 
     }
   }
@@ -382,6 +393,12 @@ function inputForm(markerId){
     </div>
 		</form>`;
 	return inputFormHtml;
+}
+function getFormSubmission(markerId){
+  const entry_form = document.getElementById(`entry-form-${markerId}`);
+  entry_form.addEventListener("change input", (event)=>{
+    
+  });
 }
 function getStarComponent(markerId){
 	let starHtml = `<div id="rating-el-${markerId}">
@@ -419,6 +436,7 @@ function setRatingStar(markerId){
 	const changeRating = (newRating) => {
     rating = newRating;
 		starRatingInput.value = rating;
+    storeData({"starRating":rating,"houseId":markerId});
   }
 	const getRating = () => {
     return rating;
@@ -486,5 +504,6 @@ function addInfoWindow(marker, latLng, content) {
   });
 	google.maps.event.addListener(marker.infoWindow, 'domready', function() {
 		setRatingStar(marker.id);
+
 	});
 }
