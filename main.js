@@ -54,7 +54,9 @@ async function storeData(dataIn){
       st_address,
       city_town,
       state,
-      type: "Flat"
+      title: data.title,
+      type: data.type,
+      radio: data.radio
     };
     if(foundFullAddress.length > 0){
       console.log("Data being updated: ", dataToInsert);
