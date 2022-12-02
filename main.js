@@ -273,10 +273,10 @@ function showError(error) {
 async function storeData(data){
   // const kvdmyid = "85Yy1wkuhcNGkUeytKifN3";
   // const kvdbStorage = KVdb.bucket(kvdmyid).localStorage();
+  let st_address, city_town, state, full_address;
   if(data.address && data.address.house_num && data.address.street && data.address.city && data.address.state){
-    const st_address = `${data.address.house_num} ${data.address.street}`;
-    const city_town = data.address.city;
-    let state = "";
+    st_address = `${data.address.house_num} ${data.address.street}`;
+    city_town = data.address.city;
     switch(data.address.state){
       case "New Hampshire":
         state = "NH";
@@ -288,10 +288,23 @@ async function storeData(data){
         state = "ME";
         break;
     };
-    
+    full_address = `${st_address}, ${city_town} ${state}`;
   }
-  let { sbdata: houses, error } = await _supabase.from('houses').select('*');
-  console.log("houses: ", houses);
+  let { sbdata: houses, selectError } = await _supabase.from('houses').select('*');
+  console.log("select houses: ", houses);
+  const { insertData, insertError } = await supabase
+  .from('houses')
+  .insert([
+    { 
+      full_address, 
+      house_num,
+      street,
+      city,
+      state,
+      type: "Flat"
+    },
+  ])
+  console.log("insert houses: ", insertData);
   // const currentHouseObj = kvdbStorage.getItem(data.houseId);
   // if (currentHouseObj){
   //   console.log("updating house", data);
