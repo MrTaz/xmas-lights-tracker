@@ -289,8 +289,8 @@ async function storeData(data){
     };
     full_address = `${st_address}, ${city_town} ${state}`;
   }
-  let { sbdata: houses, selectError } = await _supabase.from('houses').select('*');
-  console.log("select houses: ", houses);
+  let { data: selectHouses, error: selectError } = await _supabase.from('houses').select('*');
+  console.log("select houses: ", selectHouses);
   let dataToInsert = { 
     full_address, 
     st_address,
@@ -299,7 +299,7 @@ async function storeData(data){
     type: "Flat"
   };
   console.log("Data being inserted: ", dataToInsert);
-  const { insertData, insertError } = await _supabase.from('houses').insert([dataToInsert])
+  const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert])
   console.log("insert houses: ", insertData);
 }
 //This function is inokved asynchronously by the HTML5 geolocation API.
