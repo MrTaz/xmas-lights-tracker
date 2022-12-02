@@ -226,6 +226,7 @@ function setRatingStar(markerId){
 	const changeRating = (newRating) => {
     rating = newRating;
 		starRatingInput.value = rating;
+    newMapMarkers[markerId].starRating = rating;
     storeData({"starRating":rating,"houseId":markerId});
   }
 	const getRating = () => {
