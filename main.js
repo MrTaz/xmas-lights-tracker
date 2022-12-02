@@ -25,7 +25,7 @@ function showError(error) {
 
 async function storeData(dataIn){
   console.log("Store this data:", dataIn);
-  let data = newMapMarkerCounter[dataIn.houseId];
+  let data = newMapMarkers[dataIn.houseId];
   console.log("Data in marker array:", data);
   if(data.address.house_num && data.address.street && data.address.city && data.address.state){
     let st_address, city_town, state, full_address;
