@@ -25,8 +25,8 @@ function showError(error) {
 
 async function storeData(data){
   console.log("Store this data:", data);
-  let st_address, city_town, state, full_address;
   if(data.house_num && data.street && data.city && data.state){
+    let st_address, city_town, state, full_address;
     st_address = `${data.house_num} ${data.street}`;
     city_town = data.city;
     switch(data.state){
@@ -41,19 +41,27 @@ async function storeData(data){
         break;
     };
     full_address = `${st_address}, ${city_town} ${state}`;
+    let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
+    console.log("select houses: ", selectHouses);
+    let foundFullAddress = selectHouses.filter(obj => {
+      return obj.full_address === full_address;
+    });
+    let dataToInsert = { 
+      full_address, 
+      st_address,
+      city_town,
+      state,
+      type: "Flat"
+    };
+    if(foundFullAddress){
+      console.log("Data being updated: ", dataToInsert);
+      const { error } = await _supabase.from('houses').update(dataToInsert).eq('id', foundFullAddress.id);
+    }else{
+      console.log("Data being inserted: ", dataToInsert);
+      const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]);
+      console.log("insert houses: ", insertData);
+    }
   }
-  let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
-  console.log("select houses: ", selectHouses);
-  let dataToInsert = { 
-    full_address, 
-    st_address,
-    city_town,
-    state,
-    type: "Flat"
-  };
-  console.log("Data being inserted: ", dataToInsert);
-  const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert])
-  console.log("insert houses: ", insertData);
 }
 //This function is inokved asynchronously by the HTML5 geolocation API.
 function displayLocation(position) {
