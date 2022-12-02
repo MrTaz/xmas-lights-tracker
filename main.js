@@ -63,8 +63,19 @@ async function storeData(dataIn){
       const { error } = await _supabase.from('houses').update(dataToInsert).eq('id', foundFullAddress[0].id);
     }else{
       console.log("Data being inserted: ", dataToInsert);
-      const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]);
+      const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]).select();
       console.log("insert houses: ", insertData);
+    }
+    if(dataIn.starRating){
+      let startRatingDataToInsert = { }
+      if(foundFullAddress.id){
+        startRatingDataToInsert = {
+          rating: dataIn.starRating,
+          house_id: foundFullAddress.id
+        }
+        const { data: insertStarData, error: insertError } = await _supabase.from('ratings').insert([startRatingDataToInsert]).select();
+        console.log("Inserted rating: ", insertStarData);
+      }
     }
   }
 }
