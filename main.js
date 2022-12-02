@@ -154,6 +154,7 @@ function createMarker(latLng, placeResult, isUserMarker) {
             ${getStarComponent(newMapMarkerCounter)}
             ${inputForm(newMapMarkerCounter)}`;
           addInfoWindow(marker, latLng, content);
+          marker.address = address;
           newMapMarkers.push(marker);
           storeData({...address,"houseId":newMapMarkerCounter});
         }); 
