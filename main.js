@@ -23,13 +23,14 @@ function showError(error) {
   }
 }
 
-async function storeData(data){
-  console.log("Store this data:", data);
-  if(data.house_num && data.street && data.city && data.state){
+async function storeData(dataIn){
+  console.log("Store this data:", dataIn);
+  let data = newMapMarkerCounter[dataIn.houseId];
+  if(data.address.house_num && data.address.street && data.address.city && data.address.state){
     let st_address, city_town, state, full_address;
-    st_address = `${data.house_num} ${data.street}`;
-    city_town = data.city;
-    switch(data.state){
+    st_address = `${data.address.house_num} ${data.address.street}`;
+    city_town = data.address.city;
+    switch(data.address.state){
       case "New Hampshire":
         state = "NH";
         break;
