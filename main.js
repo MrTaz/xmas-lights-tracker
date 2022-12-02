@@ -292,17 +292,17 @@ async function storeData(data){
   }
   let { sbdata: houses, selectError } = await _supabase.from('houses').select('*');
   console.log("select houses: ", houses);
+  let dataToInsert = { 
+    full_address, 
+    st_address,
+    city_town,
+    state,
+    type: "Flat"
+  };
+  console.log("Data being inserted: ", dataToInsert);
   const { insertData, insertError } = await _supabase
   .from('houses')
-  .insert([
-    { 
-      full_address, 
-      st_address,
-      city_town,
-      state,
-      type: "Flat"
-    },
-  ])
+  .insert([dataToInsert])
   console.log("insert houses: ", insertData);
   // const currentHouseObj = kvdbStorage.getItem(data.houseId);
   // if (currentHouseObj){
