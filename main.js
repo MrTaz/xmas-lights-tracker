@@ -46,7 +46,7 @@ async function storeData(data){
     let foundFullAddress = selectHouses.filter(obj => {
       return obj.full_address === full_address;
     });
-    console.log("If house found, foundFullAddress is ", foundFullAddress);
+    console.log("If house found, foundFullAddress is ", foundFullAddress[0]);
     let dataToInsert = { 
       full_address, 
       st_address,
@@ -54,9 +54,9 @@ async function storeData(data){
       state,
       type: "Flat"
     };
-    if(foundFullAddress){
+    if(foundFullAddress.length > 0){
       console.log("Data being updated: ", dataToInsert);
-      const { error } = await _supabase.from('houses').update(dataToInsert).eq('id', foundFullAddress.id);
+      const { error } = await _supabase.from('houses').update(dataToInsert).eq('id', foundFullAddress[0].id);
     }else{
       console.log("Data being inserted: ", dataToInsert);
       const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]);
