@@ -44,6 +44,7 @@ async function storeData(dataIn){
     };
     full_address = `${st_address}, ${city_town} ${state}`;
     let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
+    console.warn("Error when selecting house:", selectError);
     console.log("select houses: ", selectHouses);
     let foundFullAddress = selectHouses.filter(obj => {
       return obj.full_address === full_address;
@@ -61,9 +62,11 @@ async function storeData(dataIn){
     if(foundFullAddress.length > 0){
       console.log("Data being updated: ", dataToInsert);
       const { error } = await _supabase.from('houses').update(dataToInsert).eq('id', foundFullAddress[0].id);
+      console.warn("Error when Updating house:", error);
     }else{
       console.log("Data being inserted: ", dataToInsert);
       const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]).select();
+      console.warn("Error when inserting house:", insertError);
       console.log("insert houses: ", insertData);
     }
     console.log("Do we have a star rating?", dataIn.starRating);
@@ -77,6 +80,7 @@ async function storeData(dataIn){
           house_id: foundFullAddress.id
         }
         const { data: insertStarData, error: insertError } = await _supabase.from('ratings').insert([startRatingDataToInsert]).select();
+        console.warn("Error when inserting star data house:", insertError);
         console.log("Inserted rating: ", insertStarData);
       }
     }
