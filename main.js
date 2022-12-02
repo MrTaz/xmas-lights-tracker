@@ -289,7 +289,7 @@ async function storeData(data){
     };
     full_address = `${st_address}, ${city_town} ${state}`;
   }
-  let { data: selectHouses, error: selectError } = await _supabase.from('houses').select('*');
+  let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
   console.log("select houses: ", selectHouses);
   let dataToInsert = { 
     full_address, 
