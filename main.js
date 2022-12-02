@@ -188,8 +188,24 @@ function getFormSubmission(markerId){
   const entry_form = document.getElementById(`entry-form-${markerId}`);
   entry_form.addEventListener("change input", (event)=>{
     console.log("Change event recieved", event);
-    // newMapMarkers[markerId].title = rating;
-    // storeData({"starRating":rating,"houseId":markerId});
+    // newMapMarkers[markerId].title = e.target.value;
+    // storeData({"houseId":markerId});
+  });
+  const form_title = document.getElementById(`title-${markerId}`);
+  form_title.addEventListener("change input", (event)=>{
+    newMapMarkers[markerId].title = event.target.value;
+    storeData({"houseId":markerId});
+  });
+  const form_radio = document.getElementById(`radio-${markerId}`);
+  form_radio.addEventListener("change input", (event)=>{
+    newMapMarkers[markerId].radio = event.target.value;
+    storeData({"houseId":markerId});
+  });
+  document.querySelectorAll(`input[name='type-${markerId}']`).forEach((input) => {
+    input.addEventListener("change", (event)=>{
+      newMapMarkers[markerId].type = event.target.value;
+      storeData({"houseId":markerId});
+    });
   });
 }
 function getStarComponent(markerId){
