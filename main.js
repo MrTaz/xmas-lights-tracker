@@ -203,23 +203,23 @@ function inputForm(markerId){
 function getFormSubmission(markerId){
   console.log("adding form submission listeners...");
   const entry_form = document.getElementById(`entry-form-${markerId}`);
-  entry_form.addEventListener("change input blur touchend mouseout", (event)=>{
+  entry_form.addEventListener("change input", (event)=>{
     console.log("Change event recieved", event);
     // newMapMarkers[markerId].title = e.target.value;
     // storeData({"houseId":markerId});
   });
   const form_title = document.getElementById(`title-${markerId}`);
-  form_title.addEventListener("change input blur touchend mouseout", (event)=>{
+  form_title.addEventListener("change input", (event)=>{
     newMapMarkers[markerId].lightTitle = event.target.value;
     storeData({"houseId":markerId});
   });
   const form_radio = document.getElementById(`radio-${markerId}`);
-  form_radio.addEventListener("change input blur touchend mouseout", (event)=>{
+  form_radio.addEventListener("change input", (event)=>{
     newMapMarkers[markerId].lightRadio = event.target.value;
     storeData({"houseId":markerId});
   });
   document.querySelectorAll(`input[name='type-${markerId}']`).forEach((input) => {
-    input.addEventListener("change blur touchend mouseout", (event)=>{
+    input.addEventListener("change", (event)=>{
       newMapMarkers[markerId].lightType = event.target.value;
       storeData({"houseId":markerId});
     });
