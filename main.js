@@ -268,14 +268,20 @@ function showError(error) {
 
 function storeData(data){
   const kvdmyid = "85Yy1wkuhcNGkUeytKifN3";
-  const kvdbStorage = KVdb.bucket('MY_BUCKET_ID').localStorage()
-  ${address.house_num} ${address.street}, <br/>
-  ${address.city}, ${address.state} <br/>
-  kvdbStorage.setItem('address', 'my-value')
-    .then(() => console.log('key saved')
-    .then(() => kvdbStorage.getItem('my-key'))
-    .then(value => console.log('get value', value))
-    .catch(err => console.error(err)
+  const kvdbStorage = KVdb.bucket(kvdmyid).localStorage();
+  const currentHouseObj = kvdbStorage.getItem(data.houseId);
+  if (currentHouseObj){
+    console.log("updating house", data);
+  }else{
+    console.log("creating house...", data);
+  }
+  // ${address.house_num} ${address.street}, <br/>
+  // ${address.city}, ${address.state} <br/>
+  // kvdbStorage.setItem('address', 'my-value')
+  //   .then(() => console.log('key saved')
+  //   .then(() => kvdbStorage.getItem('my-key'))
+  //   .then(value => console.log('get value', value))
+  //   .catch(err => console.error(err)
 }
 //This function is inokved asynchronously by the HTML5 geolocation API.
 function displayLocation(position) {
