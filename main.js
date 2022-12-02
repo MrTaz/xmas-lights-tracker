@@ -187,7 +187,9 @@ function inputForm(markerId){
 function getFormSubmission(markerId){
   const entry_form = document.getElementById(`entry-form-${markerId}`);
   entry_form.addEventListener("change input", (event)=>{
-    
+    console.log("Change event recieved", event);
+    // newMapMarkers[markerId].title = rating;
+    // storeData({"starRating":rating,"houseId":markerId});
   });
 }
 function getStarComponent(markerId){
