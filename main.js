@@ -292,7 +292,7 @@ async function storeData(data){
   }
   let { sbdata: houses, selectError } = await _supabase.from('houses').select('*');
   console.log("select houses: ", houses);
-  const { insertData, insertError } = await supabase
+  const { insertData, insertError } = await _supabase
   .from('houses')
   .insert([
     { 
