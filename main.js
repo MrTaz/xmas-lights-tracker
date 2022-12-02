@@ -297,10 +297,8 @@ async function storeData(data){
   .insert([
     { 
       full_address, 
-      house_num: data.address.house_num,
-      street: data.address.street,
       st_address,
-      city: city_town,
+      city_town,
       state,
       type: "Flat"
     },
