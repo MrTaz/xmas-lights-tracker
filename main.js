@@ -46,6 +46,7 @@ async function storeData(data){
     let foundFullAddress = selectHouses.filter(obj => {
       return obj.full_address === full_address;
     });
+    console.log("If house found, foundFullAddress is ", foundFullAddress);
     let dataToInsert = { 
       full_address, 
       st_address,
