@@ -271,8 +271,7 @@ function showError(error) {
 }
 
 async function storeData(data){
-  // const kvdmyid = "85Yy1wkuhcNGkUeytKifN3";
-  // const kvdbStorage = KVdb.bucket(kvdmyid).localStorage();
+  console.log("Store this data:", data);
   let st_address, city_town, state, full_address;
   if(data.address && data.address.house_num && data.address.street && data.address.city && data.address.state){
     st_address = `${data.address.house_num} ${data.address.street}`;
