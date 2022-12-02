@@ -243,6 +243,9 @@ window.pinner = new Pinner({
   props: {}
 }); */
 
+
+const { createClient } = supabase
+const _supabase = createClient('https://pfcjzaxjqkvlpzhlubky.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmY2p6YXhqcWt2bHB6aGx1Ymt5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njk5NDkyNTQsImV4cCI6MTk4NTUyNTI1NH0.CGjEaSAeqRMf4tMorQwJx_YIBjmMYTwpIILs3IwbpG8')
 let map; //: google.maps.Map;
 let mapInitialized = false;
 let newMapMarkerCounter = -1;
@@ -266,15 +269,36 @@ function showError(error) {
   }
 }
 
-function storeData(data){
-  const kvdmyid = "85Yy1wkuhcNGkUeytKifN3";
-  const kvdbStorage = KVdb.bucket(kvdmyid).localStorage();
-  const currentHouseObj = kvdbStorage.getItem(data.houseId);
-  if (currentHouseObj){
-    console.log("updating house", data);
-  }else{
-    console.log("creating house...", data);
+async function storeData(data){
+  // const kvdmyid = "85Yy1wkuhcNGkUeytKifN3";
+  // const kvdbStorage = KVdb.bucket(kvdmyid).localStorage();
+  if(data.address && data.address.house_num && data.address.street && data.address.city && data.address.state){
+    const st_address = `${data.address.house_num} ${data.address.street}`;
+    const city_town = data.address.city;
+    let state = "";
+    switch(data.address.state){
+      case "New Hampshire":
+        state = "NH";
+        break;
+      case "Massachusetts":
+        state = "MA";
+        break;
+      case "Maine":
+        state = "ME";
+        break;
+    };
+    
   }
+  let { sbdata: houses, error } = await supabase
+    .from('houses')
+    .select('*')
+  console.log("houses: ", houses);
+  // const currentHouseObj = kvdbStorage.getItem(data.houseId);
+  // if (currentHouseObj){
+  //   console.log("updating house", data);
+  // }else{
+  //   console.log("creating house...", data);
+  // }
   // ${address.house_num} ${address.street}, <br/>
   // ${address.city}, ${address.state} <br/>
   // kvdbStorage.setItem('address', 'my-value')
