@@ -54,9 +54,9 @@ async function storeData(dataIn){
       st_address,
       city_town,
       state,
-      title: data.title,
-      type: data.type,
-      radio: data.radio
+      title: data.lightTitle,
+      type: data.lightType,
+      radio: data.lightRadio
     };
     if(foundFullAddress.length > 0){
       console.log("Data being updated: ", dataToInsert);
@@ -195,17 +195,17 @@ function getFormSubmission(markerId){
   });
   const form_title = document.getElementById(`title-${markerId}`);
   form_title.addEventListener("change input", (event)=>{
-    newMapMarkers[markerId].title = event.target.value;
+    newMapMarkers[markerId].lightTitle = event.target.value;
     storeData({"houseId":markerId});
   });
   const form_radio = document.getElementById(`radio-${markerId}`);
   form_radio.addEventListener("change input", (event)=>{
-    newMapMarkers[markerId].radio = event.target.value;
+    newMapMarkers[markerId].lightRadio = event.target.value;
     storeData({"houseId":markerId});
   });
   document.querySelectorAll(`input[name='type-${markerId}']`).forEach((input) => {
     input.addEventListener("change", (event)=>{
-      newMapMarkers[markerId].type = event.target.value;
+      newMapMarkers[markerId].lightType = event.target.value;
       storeData({"houseId":markerId});
     });
   });
