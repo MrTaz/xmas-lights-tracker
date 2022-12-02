@@ -188,13 +188,13 @@ function inputForm(markerId){
       <input type="text" class="form-control form-control-xs" placeholder="Enter Radio  Station" id="radio-${markerId}" />
     </div>
 		<div class="light-types">
-			<input id="type-flat-${markerId}" type="radio" name="type-${markerId}" value="flat" />
+			<input id="type-flat-${markerId}" type="radio" name="type-${markerId}" value="Flat" />
 			<label class="light-type type-flat" for="type-flat-${markerId}"></label>
-			<input id="type-musical-${markerId}" type="radio" name="type-${markerId}" value="musical" />
+			<input id="type-musical-${markerId}" type="radio" name="type-${markerId}" value="Musical" />
 			<label class="light-type type-musical" for="type-musical-${markerId}"></label>
-			<input id="type-commercial-${markerId}" type="radio" name="type-${markerId}" value="commercial" />
+			<input id="type-commercial-${markerId}" type="radio" name="type-${markerId}" value="Commercial" />
 			<label class="light-type type-commercial" for="type-commercial-${markerId}"></label>
-			<input id="type-animated-${markerId}" type="radio" name="type-${markerId}" value="animated" />
+			<input id="type-animated-${markerId}" type="radio" name="type-${markerId}" value="Animated" />
 			<label class="light-type type-animated" for="type-animated-${markerId}"></label>
     </div>
 		</form>`;
