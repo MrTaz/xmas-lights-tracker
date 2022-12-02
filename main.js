@@ -67,8 +67,10 @@ async function storeData(dataIn){
       console.log("insert houses: ", insertData);
     }
     if(dataIn.starRating){
+      console.log("attempting to update star rating", dataIn.starRating);
       let startRatingDataToInsert = { }
       if(foundFullAddress.id){
+        console.log("Found a house to insert star rating", foundFullAddress.id);
         startRatingDataToInsert = {
           rating: dataIn.starRating,
           house_id: foundFullAddress.id
@@ -326,6 +328,6 @@ function addInfoWindow(marker, latLng, content) {
   });
 	google.maps.event.addListener(marker.infoWindow, 'domready', function() {
 		setRatingStar(marker.id);
-
+    getFormSubmission(marker.id);
 	});
 }
