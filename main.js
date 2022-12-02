@@ -273,10 +273,10 @@ function showError(error) {
 async function storeData(data){
   console.log("Store this data:", data);
   let st_address, city_town, state, full_address;
-  if(data.address && data.address.house_num && data.address.street && data.address.city && data.address.state){
-    st_address = `${data.address.house_num} ${data.address.street}`;
-    city_town = data.address.city;
-    switch(data.address.state){
+  if(data.house_num && data.street && data.city && data.state){
+    st_address = `${data.house_num} ${data.street}`;
+    city_town = data.city;
+    switch(data.state){
       case "New Hampshire":
         state = "NH";
         break;
@@ -299,23 +299,8 @@ async function storeData(data){
     type: "Flat"
   };
   console.log("Data being inserted: ", dataToInsert);
-  const { insertData, insertError } = await _supabase
-  .from('houses')
-  .insert([dataToInsert])
+  const { insertData, insertError } = await _supabase.from('houses').insert([dataToInsert])
   console.log("insert houses: ", insertData);
-  // const currentHouseObj = kvdbStorage.getItem(data.houseId);
-  // if (currentHouseObj){
-  //   console.log("updating house", data);
-  // }else{
-  //   console.log("creating house...", data);
-  // }
-  // ${address.house_num} ${address.street}, <br/>
-  // ${address.city}, ${address.state} <br/>
-  // kvdbStorage.setItem('address', 'my-value')
-  //   .then(() => console.log('key saved')
-  //   .then(() => kvdbStorage.getItem('my-key'))
-  //   .then(value => console.log('get value', value))
-  //   .catch(err => console.error(err)
 }
 //This function is inokved asynchronously by the HTML5 geolocation API.
 function displayLocation(position) {
