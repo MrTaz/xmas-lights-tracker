@@ -66,6 +66,7 @@ async function storeData(dataIn){
       const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]).select();
       console.log("insert houses: ", insertData);
     }
+    console.log("Do we have a star rating?", dataIn.starRating);
     if(dataIn.starRating){
       console.log("attempting to update star rating", dataIn.starRating);
       let startRatingDataToInsert = { }
