@@ -257,11 +257,11 @@ function getStarComponent(markerId, avgStarRating){
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="star-rating text-center pt-2">
-					<span class="bi bi-${(avgStarRating<=1)?"-star-fill":"star"}" data-rating="1"></span>
-					<span class="bi bi-${(avgStarRating<=2)?"-star-fill":"star"}" data-rating="2"></span>
-					<span class="bi bi-${(avgStarRating<=3)?"-star-fill":"star"}" data-rating="3"></span>
-					<span class="bi bi-${(avgStarRating<=4)?"-star-fill":"star"}" data-rating="4"></span>
-					<span class="bi bi-${(avgStarRating<=5)?"-star-fill":"star"}" data-rating="5"></span>
+					<span class="bi bi-${(avgStarRating<=1)?"star":"star-fill"}" data-rating="1"></span>
+					<span class="bi bi-${(avgStarRating<=2)?"star":"star-fill"}" data-rating="2"></span>
+					<span class="bi bi-${(avgStarRating<=3)?"star":"star-fill"}" data-rating="3"></span>
+					<span class="bi bi-${(avgStarRating<=4)?"star":"star-fill"}" data-rating="4"></span>
+					<span class="bi bi-${(avgStarRating<=5)?"star":"star-fill"}" data-rating="5"></span>
 					<input type="hidden" name="rating-value" class="rating-value" value="${avgStarRating}">
 				</div>
 			</div>
