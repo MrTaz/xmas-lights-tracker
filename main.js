@@ -227,7 +227,7 @@ function inputForm(markerId){
       <div class="form-group">
         <input type="text" class="form-control form-control-xs" value="${loadedHouse.lightRadio}" placeholder="Enter Radio  Station" id="radio-${markerId}" />
       </div>
-      <div class="light-types">
+      <div class="light-types pt-0 pb-1">
         <div class="row">
           <div class="col-12"><small>Selected type:<span id="selected-type-${markerId}">${loadedHouse.lightType}</span></small></div>
         </div>
@@ -250,47 +250,49 @@ function inputForm(markerId){
           </div>
         </div>
       </div>
-      <dir class="row row-cols-4">
-        <div class="col">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="opt-gb-${markerId}">
-            <label class="form-check-label" for="opt-gb-${markerId}">Gingerbread</label>
+      <div class="optional-types pt-0 pb-1">
+        <dir class="row row-cols-4">
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="opt-gb-${markerId}">
+              <label class="form-check-label" for="opt-gb-${markerId}">Gingerbread</label>
+            </div>
           </div>
-        </div>
-        <div class="col">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="opt-bm-${markerId}">
-            <label class="form-check-label" for="opt-bm-${markerId}">Blow Models</label>
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="opt-bm-${markerId}">
+              <label class="form-check-label" for="opt-bm-${markerId}">Blow Models</label>
+            </div>
           </div>
-        </div>
-        <div class="col">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="opt-if-${markerId}">
-            <label class="form-check-label" for="opt-if-${markerId}">Inflatables</label>
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="opt-if-${markerId}">
+              <label class="form-check-label" for="opt-if-${markerId}">Inflatables</label>
+            </div>
           </div>
-        </div>
-        <div class="col">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="opt-p-${markerId}">
-            <label class="form-check-label" for="opt-p-${markerId}">Projection</label>
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="opt-p-${markerId}">
+              <label class="form-check-label" for="opt-p-${markerId}">Projection</label>
+            </div>
           </div>
-        </div>
-        <div class="col">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="opt-m-${markerId}">
-            <label class="form-check-label" for="opt-m-${markerId}">Movie</label>
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="opt-m-${markerId}">
+              <label class="form-check-label" for="opt-m-${markerId}">Movie</label>
+            </div>
           </div>
-        </div>
-        <div class="col">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="opt-ia-${markerId}">
-            <label class="form-check-label" for="opt-ia-${markerId}">Interactive</label>
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="opt-ia-${markerId}">
+              <label class="form-check-label" for="opt-ia-${markerId}">Interactive</label>
+            </div>
           </div>
-        </div>
-        <div class="col">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" value="" id="opt-l-${markerId}">
-            <label class="form-check-label" for="opt-l-${markerId}">Lasers</label>
+          <div class="col">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="opt-l-${markerId}">
+              <label class="form-check-label" for="opt-l-${markerId}">Lasers</label>
+            </div>
           </div>
         </div>
       </div>
@@ -431,7 +433,7 @@ function addInfoWindow(marker, latLng, content) {
     marker.infoWindow.open(map);
     activeInfoWindow = marker.infoWindow;
   });
-	google.maps.event.addListener(marker.infoWindow, 'domready', async function() {
+	google.maps.event.addListener(marker.infoWindow, 'domready', function() {
 		setRatingStar(marker.id);
     getFormSubmission(marker.id);
 	});
