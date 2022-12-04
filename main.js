@@ -324,7 +324,7 @@ function setRatingStar(markerId){
 	star_rating.addEventListener("mouseout", (event)=>{
     renderRating(rating);
 	});
-	star_rating.addEventListener("load domready", async (event)=>{
+	star_rating.addEventListener("load", async (event)=>{
     rating = await getAvgStarRating(newMapMarkers[markerId].houseId);
     renderRating(rating);
 	});
