@@ -231,7 +231,7 @@ function inputForm(markerId){
       <div class="row">
         <div class="col-12"><small>Selected type:<span id="selected-type-${markerId}">${loadedHouse.lightType}</span></small></div>
       </div>
-      <div class="row>
+      <div class="row">
         <input id="type-flat-${markerId}" type="radio" name="type-${markerId}" value="Flat" ${loadedHouse.lightType==="Flat"?"Checked":""}/>
         <label class="light-type type-flat" for="type-flat-${markerId}"></label>
         <input id="type-musical-${markerId}" type="radio" name="type-${markerId}" value="Musical" ${loadedHouse.lightType==="Musical"?"Checked":""}/>
@@ -274,6 +274,7 @@ function getFormSubmission(markerId){
   });
   document.querySelectorAll(`input[name='type-${markerId}']`).forEach((input) => {
     input.addEventListener("change", (event)=>{
+      document.getElementById(`selected-type-${markerId}`).innerText = event.target.value;
       newMapMarkers[markerId].lightType = event.target.value;
       storeData({"currentMarkerId":markerId});
     });
