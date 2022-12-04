@@ -360,8 +360,8 @@ function addInfoWindow(marker, latLng, content) {
     activeInfoWindow = marker.infoWindow;
   });
 	google.maps.event.addListener(marker.infoWindow, 'domready', function() {
-		setRatingStar(marker.id);
-    setRatingStar(marker.id).setRating();
+		const markerStarRating = setRatingStar(marker.id);
+    markerStarRating.setRating();
     getFormSubmission(marker.id);
 	});
 }
