@@ -228,14 +228,23 @@ function inputForm(markerId){
       <input type="text" class="form-control form-control-xs" value="${loadedHouse.lightRadio}" placeholder="Enter Radio  Station" id="radio-${markerId}" />
     </div>
 		<div class="light-types">
-			<input id="type-flat-${markerId}" type="radio" name="type-${markerId}" value="Flat" />
+			<input id="type-flat-${markerId}" type="radio" name="type-${markerId}" value="Flat" ${loadedHouse.lightTitle==="Flat"?"Checked":""}/>
 			<label class="light-type type-flat" for="type-flat-${markerId}"></label>
-			<input id="type-musical-${markerId}" type="radio" name="type-${markerId}" value="Musical" />
+			<input id="type-musical-${markerId}" type="radio" name="type-${markerId}" value="Musical" ${loadedHouse.lightTitle==="Musical"?"Checked":""}/>
 			<label class="light-type type-musical" for="type-musical-${markerId}"></label>
-			<input id="type-commercial-${markerId}" type="radio" name="type-${markerId}" value="Commercial" />
+			<input id="type-commercial-${markerId}" type="radio" name="type-${markerId}" value="Commercial" ${loadedHouse.lightTitle==="Commercial"?"Checked":""}/>
 			<label class="light-type type-commercial" for="type-commercial-${markerId}"></label>
-			<input id="type-animated-${markerId}" type="radio" name="type-${markerId}" value="Animated" />
+			<input id="type-animated-${markerId}" type="radio" name="type-${markerId}" value="Animated" ${loadedHouse.lightTitle==="Animated"?"Checked":""}/>
 			<label class="light-type type-animated" for="type-animated-${markerId}"></label>
+    </div>
+    <dir class="row">
+      <div class="col">Gingerbread</div>
+      <div class="col">Blow Models</div>
+      <div class="col">Inflatables</div>
+      <div class="col">Projection</div>
+      <div class="col">Movie</div>
+      <div class="col">Interactive</div>
+      <div class="col">Lasers</div>
     </div>
 		</form>`;
 	return inputFormHtml;
