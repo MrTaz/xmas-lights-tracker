@@ -301,6 +301,16 @@ function inputForm(markerId){
           </div>
         </div>
       </div>
+      <div class="form-group">
+        <input type="text" class="form-control form-control-xs" value="${loadedHouse.weblink}" placeholder="Enter Web Link" id="web-link-${markerId}" />
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control form-control-xs" value="${loadedHouse.hours}" placeholder="Enter Hours" id="hours-${markerId}" />
+      </div>
+      <div class="form-group">
+        <label for="notes-${markerId}">Notes/Charity Details</label>
+        <textarea class="form-control" id="notes-${markerId}" rows="3"></textarea>
+      </div>
 		</form>`;
 	return inputFormHtml;
 }
