@@ -203,7 +203,7 @@ function createMarker(latLng, placeResult, isUserMarker) {
           //this will populate the marker with the attributes from the db
           await storeData({...address,"currentMarkerId":newMapMarkerCounter});
 
-          let avgStarRating = await loadAvgStarRating(newMapMarkers[newMapMarkerCounter].houseId)
+          let avgStarRating = await loadAvgStarRating(newMapMarkers[newMapMarkerCounter].houseId) || 0;
           let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
 
           let content = `Adding location: <br/>
