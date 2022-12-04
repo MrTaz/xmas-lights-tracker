@@ -248,7 +248,6 @@ function inputForm(markerId){
           <input id="type-animated-${markerId}" type="radio" name="type-${markerId}" value="Animated" ${loadedHouse.lightType==="Animated"?"Checked":""}/>
           <label class="light-type type-animated" for="type-animated-${markerId}"></label>
         </div>
-        <div class="col">
       </div>
     </div>
     <dir class="row">
