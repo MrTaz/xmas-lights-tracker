@@ -267,7 +267,7 @@ function setRatingStar(markerId){
 	const star_rating = document.getElementById(`rating-el-${markerId}`);
 	const starComponent = star_rating.querySelector(".star-rating");
 	const starRatingInput = star_rating.querySelector(".rating-value");
-	let rating = starRatingInput.value;
+	let rating = setRating();
 
 	const resetTabIndex = () => {
 		starComponent.childNodes.forEach((star) => {
@@ -284,6 +284,10 @@ function setRatingStar(markerId){
 		starRatingInput.value = rating;
     newMapMarkers[markerId].starRating = rating;
     storeStarRating(newMapMarkers[markerId].houseId, {"starRating":rating,"currentMarkerId":markerId});
+  }
+  const setRating = async () => {
+    starRatingInput.value = await getAvgStarRating(newMapMarkers[markerId].houseId);
+    return starRatingInput.value;
   }
 	const getRating = () => {
     return rating;
@@ -325,7 +329,6 @@ function setRatingStar(markerId){
     renderRating(rating);
 	});
 	star_rating.addEventListener("load", async (event)=>{
-    rating = await getAvgStarRating(newMapMarkers[markerId].houseId);
     renderRating(rating);
 	});
 };
@@ -351,7 +354,9 @@ function addInfoWindow(marker, latLng, content) {
   activeInfoWindow = marker.infoWindow;
 	
   google.maps.event.addListener(marker, 'click', function() {
+    if (activeInfoWindow) { activeInfoWindow.close();}
     marker.infoWindow.open(map);
+    activeInfoWindow = marker.infoWindow;
   });
 	google.maps.event.addListener(marker.infoWindow, 'domready', function() {
 		setRatingStar(marker.id);
