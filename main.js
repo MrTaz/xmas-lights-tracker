@@ -221,44 +221,79 @@ function createMarker(latLng, placeResult, isUserMarker) {
 function inputForm(markerId){
   const loadedHouse = newMapMarkers[markerId];
 	let inputFormHtml = `<form id="entry-form-${markerId}" action="">
-		<div class="form-group">
-			<input type="text" class="form-control form-control-xs" value="${loadedHouse.lightTitle}" placeholder="Enter Title  or none" id="title-${markerId}" />
-		</div>
-		<div class="form-group">
-      <input type="text" class="form-control form-control-xs" value="${loadedHouse.lightRadio}" placeholder="Enter Radio  Station" id="radio-${markerId}" />
-    </div>
-		<div class="light-types">
-      <div class="row">
-        <div class="col-12"><small>Selected type:<span id="selected-type-${markerId}">${loadedHouse.lightType}</span></small></div>
+      <div class="form-group">
+        <input type="text" class="form-control form-control-xs" value="${loadedHouse.lightTitle}" placeholder="Enter Title  or none" id="title-${markerId}" />
       </div>
-      <div class="row">
-        <div class="col">
-          <input id="type-flat-${markerId}" type="radio" name="type-${markerId}" value="Flat" ${loadedHouse.lightType==="Flat"?"Checked":""}/>
-          <label class="light-type type-flat" for="type-flat-${markerId}"></label>
+      <div class="form-group">
+        <input type="text" class="form-control form-control-xs" value="${loadedHouse.lightRadio}" placeholder="Enter Radio  Station" id="radio-${markerId}" />
+      </div>
+      <div class="light-types">
+        <div class="row">
+          <div class="col-12"><small>Selected type:<span id="selected-type-${markerId}">${loadedHouse.lightType}</span></small></div>
         </div>
-        <div class="col">
-          <input id="type-musical-${markerId}" type="radio" name="type-${markerId}" value="Musical" ${loadedHouse.lightType==="Musical"?"Checked":""}/>
-          <label class="light-type type-musical" for="type-musical-${markerId}"></label>
-        </div>
-        <div class="col">
-          <input id="type-commercial-${markerId}" type="radio" name="type-${markerId}" value="Commercial" ${loadedHouse.lightType==="Commercial"?"Checked":""}/>
-          <label class="light-type type-commercial" for="type-commercial-${markerId}"></label>
-        </div>
-        <div class="col">
-          <input id="type-animated-${markerId}" type="radio" name="type-${markerId}" value="Animated" ${loadedHouse.lightType==="Animated"?"Checked":""}/>
-          <label class="light-type type-animated" for="type-animated-${markerId}"></label>
+        <div class="row">
+          <div class="col">
+            <input id="type-flat-${markerId}" type="radio" name="type-${markerId}" value="Flat" ${loadedHouse.lightType==="Flat"?"Checked":""}/>
+            <label class="light-type type-flat" for="type-flat-${markerId}"></label>
+          </div>
+          <div class="col">
+            <input id="type-musical-${markerId}" type="radio" name="type-${markerId}" value="Musical" ${loadedHouse.lightType==="Musical"?"Checked":""}/>
+            <label class="light-type type-musical" for="type-musical-${markerId}"></label>
+          </div>
+          <div class="col">
+            <input id="type-commercial-${markerId}" type="radio" name="type-${markerId}" value="Commercial" ${loadedHouse.lightType==="Commercial"?"Checked":""}/>
+            <label class="light-type type-commercial" for="type-commercial-${markerId}"></label>
+          </div>
+          <div class="col">
+            <input id="type-animated-${markerId}" type="radio" name="type-${markerId}" value="Animated" ${loadedHouse.lightType==="Animated"?"Checked":""}/>
+            <label class="light-type type-animated" for="type-animated-${markerId}"></label>
+          </div>
         </div>
       </div>
-    </div>
-    <dir class="row">
-      <div class="col">Gingerbread</div>
-      <div class="col">Blow Models</div>
-      <div class="col">Inflatables</div>
-      <div class="col">Projection</div>
-      <div class="col">Movie</div>
-      <div class="col">Interactive</div>
-      <div class="col">Lasers</div>
-    </div>
+      <dir class="row row-cols-4">
+        <div class="col">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="opt-gb-${markerId}">
+            <label class="form-check-label" for="opt-gb-${markerId}">Gingerbread</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="opt-bm-${markerId}">
+            <label class="form-check-label" for="opt-bm-${markerId}">Blow Models</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="opt-if-${markerId}">
+            <label class="form-check-label" for="opt-if-${markerId}">Inflatables</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="opt-p-${markerId}">
+            <label class="form-check-label" for="opt-p-${markerId}">Projection</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="opt-m-${markerId}">
+            <label class="form-check-label" for="opt-m-${markerId}">Movie</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="opt-ia-${markerId}">
+            <label class="form-check-label" for="opt-ia-${markerId}">Interactive</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="opt-l-${markerId}">
+            <label class="form-check-label" for="opt-l-${markerId}">Lasers</label>
+          </div>
+        </div>
+      </div>
 		</form>`;
 	return inputFormHtml;
 }
