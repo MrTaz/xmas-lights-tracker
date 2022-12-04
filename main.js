@@ -267,7 +267,7 @@ function setRatingStar(markerId){
 	const star_rating = document.getElementById(`rating-el-${markerId}`);
 	const starComponent = star_rating.querySelector(".star-rating");
 	const starRatingInput = star_rating.querySelector(".rating-value");
-	let rating = setRating();
+	let rating = starRatingInput.value;
 
 	const resetTabIndex = () => {
 		starComponent.childNodes.forEach((star) => {
@@ -287,7 +287,8 @@ function setRatingStar(markerId){
   }
   const setRating = async () => {
     starRatingInput.value = await getAvgStarRating(newMapMarkers[markerId].houseId);
-    return starRatingInput.value;
+    rating = starRatingInput.value;
+    renderRating(rating);
   }
 	const getRating = () => {
     return rating;
@@ -360,6 +361,7 @@ function addInfoWindow(marker, latLng, content) {
   });
 	google.maps.event.addListener(marker.infoWindow, 'domready', function() {
 		setRatingStar(marker.id);
+    setRatingStar(marker.id).setRating();
     getFormSubmission(marker.id);
 	});
 }
