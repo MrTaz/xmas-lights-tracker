@@ -25,7 +25,7 @@ function showError(error) {
 
 async function storeData(dataIn){
   console.log("Store this data:", dataIn);
-  let data = newMapMarkers[dataIn.houseId];
+  let data = newMapMarkers[dataIn.currentMarkerId];
   console.log("Data in marker array:", data);
   if(data.address.house_num && data.address.street && data.address.city && data.address.state){
     let st_address, city_town, state, full_address;
@@ -60,6 +60,7 @@ async function storeData(dataIn){
       radio: data.lightRadio
     };
     if(foundFullAddress.length > 0){
+      newMapMarkers[dataIn.currentMarkerId].houseId = foundFullAddress[0].id;
       console.log("Data being updated: ", dataToInsert);
       const { error } = await _supabase.from('houses').update(dataToInsert).eq('id', foundFullAddress[0].id);
       if(error) console.warn("Error when Updating house:", error);
@@ -68,22 +69,28 @@ async function storeData(dataIn){
       const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]).select();
       if(insertError) console.warn("Error when inserting house:", insertError);
       console.log("insert houses: ", insertData);
+      newMapMarkers[dataIn.currentMarkerId].houseId = insertData[0].id;
     }
-    console.log("Do we have a star rating?", dataIn.starRating);
-    if(dataIn.starRating){
-      console.log("attempting to update star rating", dataIn.starRating);
-      let startRatingDataToInsert = { }
-      if(foundFullAddress[0].id){
-        console.log("Found a house to insert star rating", foundFullAddress[0].id);
-        startRatingDataToInsert = {
-          rating: dataIn.starRating,
-          house_id: foundFullAddress[0].id
-        }
-        const { data: insertStarData, error: insertStarError } = await _supabase.from('ratings').insert([startRatingDataToInsert]).select();
-        if(insertStarError) console.warn("Error when inserting star data house:", insertStarError);
-        console.log("Inserted rating: ", insertStarData);
-      }
+  }
+}
+async function storeStarRating(houseId, dataIn){
+  if(!houseId){
+    return new Error("Invalid house id passed to star rating storage");
+  }
+  console.debug("Do we have a star rating?", dataIn.starRating);
+  if(dataIn.starRating){
+    console.debug("attempting to update star rating", dataIn.starRating);
+    let startRatingDataToInsert = { }
+    console.debug("Found a house to insert star rating", houseId);
+    startRatingDataToInsert = {
+      rating: dataIn.starRating,
+      house_id: houseId
     }
+    const { data: insertStarData, error: insertStarError } = await _supabase.from('ratings').insert([startRatingDataToInsert]).select();
+    if(insertStarError) console.error("Error when inserting star data house:", insertStarError);
+    console.log("Inserted rating: ", insertStarData);
+  }else{
+    return new Error("Invalid rating passed to star rating storage");
   }
 }
 //This function is inokved asynchronously by the HTML5 geolocation API.
@@ -178,7 +185,7 @@ function createMarker(latLng, placeResult, isUserMarker) {
           addInfoWindow(marker, latLng, content);
           marker.address = address;
           newMapMarkers.push(marker);
-          storeData({...address,"houseId":newMapMarkerCounter});
+          storeData({...address,"currentMarkerId":newMapMarkerCounter});
         }); 
     }
   }
@@ -210,22 +217,22 @@ function getFormSubmission(markerId){
   entry_form.addEventListener("change input", (event)=>{
     console.log("Change event recieved", event);
     // newMapMarkers[markerId].title = e.target.value;
-    // storeData({"houseId":markerId});
+    // storeData({"currentMarkerId":markerId});
   });
   const form_title = document.getElementById(`title-${markerId}`);
   form_title.addEventListener("change input", (event)=>{
     newMapMarkers[markerId].lightTitle = event.target.value;
-    storeData({"houseId":markerId});
+    storeData({"currentMarkerId":markerId});
   });
   const form_radio = document.getElementById(`radio-${markerId}`);
   form_radio.addEventListener("change input", (event)=>{
     newMapMarkers[markerId].lightRadio = event.target.value;
-    storeData({"houseId":markerId});
+    storeData({"currentMarkerId":markerId});
   });
   document.querySelectorAll(`input[name='type-${markerId}']`).forEach((input) => {
     input.addEventListener("change", (event)=>{
       newMapMarkers[markerId].lightType = event.target.value;
-      storeData({"houseId":markerId});
+      storeData({"currentMarkerId":markerId});
     });
   });
 }
@@ -266,7 +273,7 @@ function setRatingStar(markerId){
     rating = newRating;
 		starRatingInput.value = rating;
     newMapMarkers[markerId].starRating = rating;
-    storeData({"starRating":rating,"houseId":markerId});
+    storeStarRating(newMapMarkers[markerId].houseId, {"starRating":rating,"currentMarkerId":markerId});
   }
 	const getRating = () => {
     return rating;
