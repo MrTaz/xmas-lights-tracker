@@ -44,7 +44,7 @@ async function storeData(dataIn){
     };
     full_address = `${st_address}, ${city_town} ${state}`;
     let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
-    console.warn("Error when selecting house:", selectError);
+    if(selectError) console.warn("Error when selecting house:", selectError);
     console.log("select houses: ", selectHouses);
     let foundFullAddress = selectHouses.filter(obj => {
       return obj.full_address === full_address;
@@ -62,25 +62,25 @@ async function storeData(dataIn){
     if(foundFullAddress.length > 0){
       console.log("Data being updated: ", dataToInsert);
       const { error } = await _supabase.from('houses').update(dataToInsert).eq('id', foundFullAddress[0].id);
-      console.warn("Error when Updating house:", error);
+      if(error) console.warn("Error when Updating house:", error);
     }else{
       console.log("Data being inserted: ", dataToInsert);
       const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]).select();
-      console.warn("Error when inserting house:", insertError);
+      if(insertError) console.warn("Error when inserting house:", insertError);
       console.log("insert houses: ", insertData);
     }
     console.log("Do we have a star rating?", dataIn.starRating);
     if(dataIn.starRating){
       console.log("attempting to update star rating", dataIn.starRating);
       let startRatingDataToInsert = { }
-      if(foundFullAddress.id){
-        console.log("Found a house to insert star rating", foundFullAddress.id);
+      if(foundFullAddress[0].id){
+        console.log("Found a house to insert star rating", foundFullAddress[0].id);
         startRatingDataToInsert = {
           rating: dataIn.starRating,
-          house_id: foundFullAddress.id
+          house_id: foundFullAddress[0].id
         }
-        const { data: insertStarData, error: insertError } = await _supabase.from('ratings').insert([startRatingDataToInsert]).select();
-        console.warn("Error when inserting star data house:", insertError);
+        const { data: insertStarData, error: insertStarError } = await _supabase.from('ratings').insert([startRatingDataToInsert]).select();
+        if(insertStarError) console.warn("Error when inserting star data house:", insertStarError);
         console.log("Inserted rating: ", insertStarData);
       }
     }
