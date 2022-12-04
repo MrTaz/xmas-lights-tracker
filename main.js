@@ -98,7 +98,7 @@ async function getAvgStarRating(houseId){
   if(!houseId){
     return new Error("Invalid house id passed to star rating storage");
   }
-  let { data: selectStarRatings, error: selectStarRatingsError } = await _supabase.from('ratings').select(rating).eq("house_id",houseId);
+  let { data: selectStarRatings, error: selectStarRatingsError } = await _supabase.from('ratings').select("rating").eq("house_id",houseId);
   if(selectStarRatingsError) console.warn("Error when selecting star ratings:", selectStarRatingsError);
   console.log("Ratings found:", selectStarRatings);
   return selectStarRatings[0];
@@ -185,13 +185,13 @@ function createMarker(latLng, placeResult, isUserMarker) {
             city: data.address.village,
             state: data.address.state
           };
-          let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
           marker.address = address;
           newMapMarkers.push(marker);
           //this will populate the marker with the attributes from the db
           await storeData({...address,"currentMarkerId":newMapMarkerCounter});
 
           let avgStarRating = await getAvgStarRating(newMapMarkers[newMapMarkerCounter].houseId)
+          let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
 
           let content = `Adding location: <br/>
             ${address.house_num} ${address.street}, <br/>
@@ -201,8 +201,6 @@ function createMarker(latLng, placeResult, isUserMarker) {
             ${inputForm(newMapMarkerCounter)}`;
           
           addInfoWindow(marker, latLng, content);
-          
-          
         }); 
     }
   }
