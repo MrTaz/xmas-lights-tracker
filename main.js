@@ -232,14 +232,23 @@ function inputForm(markerId){
         <div class="col-12"><small>Selected type:<span id="selected-type-${markerId}">${loadedHouse.lightType}</span></small></div>
       </div>
       <div class="row">
-        <input id="type-flat-${markerId}" type="radio" name="type-${markerId}" value="Flat" ${loadedHouse.lightType==="Flat"?"Checked":""}/>
-        <label class="light-type type-flat" for="type-flat-${markerId}"></label>
-        <input id="type-musical-${markerId}" type="radio" name="type-${markerId}" value="Musical" ${loadedHouse.lightType==="Musical"?"Checked":""}/>
-        <label class="light-type type-musical" for="type-musical-${markerId}"></label>
-        <input id="type-commercial-${markerId}" type="radio" name="type-${markerId}" value="Commercial" ${loadedHouse.lightType==="Commercial"?"Checked":""}/>
-        <label class="light-type type-commercial" for="type-commercial-${markerId}"></label>
-        <input id="type-animated-${markerId}" type="radio" name="type-${markerId}" value="Animated" ${loadedHouse.lightType==="Animated"?"Checked":""}/>
-        <label class="light-type type-animated" for="type-animated-${markerId}"></label>
+        <div class="col">
+          <input id="type-flat-${markerId}" type="radio" name="type-${markerId}" value="Flat" ${loadedHouse.lightType==="Flat"?"Checked":""}/>
+          <label class="light-type type-flat" for="type-flat-${markerId}"></label>
+        </div>
+        <div class="col">
+          <input id="type-musical-${markerId}" type="radio" name="type-${markerId}" value="Musical" ${loadedHouse.lightType==="Musical"?"Checked":""}/>
+          <label class="light-type type-musical" for="type-musical-${markerId}"></label>
+        </div>
+        <div class="col">
+          <input id="type-commercial-${markerId}" type="radio" name="type-${markerId}" value="Commercial" ${loadedHouse.lightType==="Commercial"?"Checked":""}/>
+          <label class="light-type type-commercial" for="type-commercial-${markerId}"></label>
+        </div>
+        <div class="col">
+          <input id="type-animated-${markerId}" type="radio" name="type-${markerId}" value="Animated" ${loadedHouse.lightType==="Animated"?"Checked":""}/>
+          <label class="light-type type-animated" for="type-animated-${markerId}"></label>
+        </div>
+        <div class="col">
       </div>
     </div>
     <dir class="row">

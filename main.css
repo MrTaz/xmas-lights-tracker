@@ -27,6 +27,7 @@
   border-color: gray;
   border-style: solid;
   border-width: 2px;
+  border-radius: 5px;
 }
 
 .star-rating {
