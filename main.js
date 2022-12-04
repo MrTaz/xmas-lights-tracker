@@ -243,18 +243,18 @@ function inputForm(markerId){
 function getFormSubmission(markerId){
   console.log("adding form submission listeners...");
   const entry_form = document.getElementById(`entry-form-${markerId}`);
-  entry_form.addEventListener("change input", (event)=>{
-    console.log("Change event recieved", event);
+  entry_form.addEventListener("input", (event)=>{
+    console.log("Input event recieved", event);
     // newMapMarkers[markerId].title = e.target.value;
     // storeData({"currentMarkerId":markerId});
   });
   const form_title = document.getElementById(`title-${markerId}`);
-  form_title.addEventListener("change input", (event)=>{
+  form_title.addEventListener("input", (event)=>{
     newMapMarkers[markerId].lightTitle = event.target.value;
     storeData({"currentMarkerId":markerId});
   });
   const form_radio = document.getElementById(`radio-${markerId}`);
-  form_radio.addEventListener("change input", (event)=>{
+  form_radio.addEventListener("input", (event)=>{
     newMapMarkers[markerId].lightRadio = event.target.value;
     storeData({"currentMarkerId":markerId});
   });
