@@ -348,7 +348,7 @@ function addInfoWindow(marker, latLng, content) {
 
   if (activeInfoWindow) { activeInfoWindow.close();}
   marker.infoWindow.open(map);
-  activeInfoWindow = marker.infowindow;
+  activeInfoWindow = marker.infoWindow;
 	
   google.maps.event.addListener(marker, 'click', function() {
     marker.infoWindow.open(map);
