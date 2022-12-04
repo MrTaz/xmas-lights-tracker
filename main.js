@@ -354,9 +354,9 @@ function addInfoWindow(marker, latLng, content) {
     marker.infoWindow.open(map);
     activeInfoWindow = marker.infoWindow;
   });
-	google.maps.event.addListener(marker.infoWindow, 'domready', function() {
-		const markerStarRating = setRatingStar(marker.id);
-    markerStarRating.setRating();
+	google.maps.event.addListener(marker.infoWindow, 'domready', async function() {
+		setRatingStar(marker.id);
+    document.getElementById(`rating-el-${marker.id}`).querySelector(".star-rating").querySelector(".rating-value").value = await getAvgStarRating(newMapMarkers[marker.id].houseId);
     getFormSubmission(marker.id);
 	});
 }
