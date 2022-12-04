@@ -56,7 +56,7 @@ async function storeData(dataIn){
       city_town,
       state,
       title: data.lightTitle,
-      type: (data.lightType)?data.lightType:"unknown",
+      type: (data.lightType)?data.lightType:"Unknown",
       radio: data.lightRadio
     };
     if(foundFullAddress.length > 0){
