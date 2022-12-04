@@ -93,6 +93,15 @@ async function storeStarRating(houseId, dataIn){
     return new Error("Invalid rating passed to star rating storage");
   }
 }
+async function getAvgStarRating(houseId){
+  if(!houseId){
+    return new Error("Invalid house id passed to star rating storage");
+  }
+  let { data: selectStarRatings, error: selectStarRatingsError } = await _supabase.from('ratings').select(rating).eq("house_id",houseId);
+  if(selectStarRatingsError) console.warn("Error when selecting star ratings:", selectStarRatingsError);
+  console.log("Ratings found:", selectStarRatings);
+  return selectStarRatings[0];
+}
 //This function is inokved asynchronously by the HTML5 geolocation API.
 function displayLocation(position) {
   //The latitude and longitude values obtained from HTML 5 API.
@@ -314,7 +323,8 @@ function setRatingStar(markerId){
 	star_rating.addEventListener("mouseout", (event)=>{
     renderRating(rating);
 	});
-	star_rating.addEventListener("load", (event)=>{
+	star_rating.addEventListener("load", async (event)=>{
+    rating = await getAvgStarRating(newMapMarkers[markerId].houseId);
     renderRating(rating);
 	});
 };
