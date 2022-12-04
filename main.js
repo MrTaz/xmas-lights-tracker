@@ -408,8 +408,10 @@ function setRatingStar(markerId){
 	});
 };
 
-function removeMarker(markerId){
+async function removeMarker(markerId){
   console.log("attempting to remove marker", markerId);
+  newMapMarkers[markerId].lightType = "CANCELLED";
+  await storeData({"currentMarkerId":markerId});
 	let marker = newMapMarkers[markerId];
 	marker.infoWindow.close();
 	marker.infoWindow = null; 
