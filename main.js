@@ -58,7 +58,7 @@ async function storeData(dataIn){
       state,
       title: (data.lightTitle)?data.lightTitle:(foundFullAddress[0].title)?foundFullAddress[0].title:"",
       type: (data.lightType)?data.lightType:(foundFullAddress[0].type)?foundFullAddress[0].type:"Unknown",
-      radio: (data.lightRadio)?data.lightRadio:(foundFullAddress[0].radio)?foundFullAddress[0].radio:"";
+      radio: (data.lightRadio)?data.lightRadio:(foundFullAddress[0].radio)?foundFullAddress[0].radio:""
     };
     if(foundFullAddress.length > 0){
       newMapMarkers[dataIn.currentMarkerId].houseId = foundFullAddress[0].id;
