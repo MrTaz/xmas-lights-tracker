@@ -252,43 +252,43 @@ function inputForm(markerId){
       </div>
       <div class="optional-types pt-0 pb-1">
         <dir class="row align-items-center row-cols-4 mb-0">
-          <div class="col">
+          <div class="col my-auto">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="opt-gb-${markerId}">
               <label class="form-check-label" for="opt-gb-${markerId}">Gingerbread</label>
             </div>
           </div>
-          <div class="col">
+          <div class="col my-auto">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="opt-bm-${markerId}">
               <label class="form-check-label" for="opt-bm-${markerId}">Blow Models</label>
             </div>
           </div>
-          <div class="col">
+          <div class="col my-auto">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="opt-if-${markerId}">
               <label class="form-check-label" for="opt-if-${markerId}">Inflatables</label>
             </div>
           </div>
-          <div class="col">
+          <div class="col my-auto">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="opt-p-${markerId}">
               <label class="form-check-label" for="opt-p-${markerId}">Projection</label>
             </div>
           </div>
-          <div class="col">
+          <div class="col my-auto">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="opt-m-${markerId}">
               <label class="form-check-label" for="opt-m-${markerId}">Movie</label>
             </div>
           </div>
-          <div class="col">
+          <div class="col my-auto">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="opt-ia-${markerId}">
               <label class="form-check-label" for="opt-ia-${markerId}">Interactive</label>
             </div>
           </div>
-          <div class="col">
+          <div class="col my-auto">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="opt-l-${markerId}">
               <label class="form-check-label" for="opt-l-${markerId}">Lasers</label>
