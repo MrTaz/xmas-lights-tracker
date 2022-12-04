@@ -101,7 +101,7 @@ async function getAvgStarRating(houseId){
   let { data: selectStarRatings, error: selectStarRatingsError } = await _supabase.from('ratings').select("rating").eq("house_id",houseId);
   if(selectStarRatingsError) console.warn("Error when selecting star ratings:", selectStarRatingsError);
   console.log("Ratings found:", selectStarRatings);
-  const avgStarRating = selectStarRatings.reduce((r, c) => r + c.rating, 0) / selectStarRatings.length;
+  const avgStarRating = Math.round(selectStarRatings.reduce((r, c) => r + c.rating, 0) / selectStarRatings.length);
   return avgStarRating;
 }
 //This function is inokved asynchronously by the HTML5 geolocation API.
