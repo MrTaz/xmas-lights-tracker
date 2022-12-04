@@ -53,11 +53,11 @@ async function storeData(dataIn){
     });
     console.log("If house found, foundFullAddress is ", foundFullAddress[0]);
 
-    let title = (data.lightTitle)?data.lightTitle:(foundFullAddress[0].title)?foundFullAddress[0].title:"";
+    let title = (data.lightTitle)?data.lightTitle:(foundFullAddress[0] && foundFullAddress[0].title)?foundFullAddress[0].title:"";
     newMapMarkers[dataIn.currentMarkerId].lightTitle = title;
-    let type = (data.lightType)?data.lightType:(foundFullAddress[0].type)?foundFullAddress[0].type:"Unknown";
+    let type = (data.lightType)?data.lightType:(foundFullAddress[0] && foundFullAddress[0].type)?foundFullAddress[0].type:"Unknown";
     newMapMarkers[dataIn.currentMarkerId].lightType = type;
-    let radio = (data.lightRadio)?data.lightRadio:(foundFullAddress[0].radio)?foundFullAddress[0].radio:"";
+    let radio = (data.lightRadio)?data.lightRadio:(foundFullAddress[0] && foundFullAddress[0].radio)?foundFullAddress[0].radio:"";
     newMapMarkers[dataIn.currentMarkerId].lightRadio = radio;
     let dataToInsert = { 
       full_address, 
