@@ -177,7 +177,7 @@ function createMarker(latLng, placeResult, isUserMarker) {
       // console.log(`Receieved latLng:`, latLng.lat(), latLng.lng());
       fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latLng.lat()}&lon=${latLng.lng()}&namedetails=1`)
         .then((response) => response.json())
-        .then((data) => {
+        .then(async (data) => {
           // console.log(`Found address info:`, data);
           let address = {
             house_num: data.address.house_number,
@@ -186,16 +186,23 @@ function createMarker(latLng, placeResult, isUserMarker) {
             state: data.address.state
           };
           let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
+          marker.address = address;
+          newMapMarkers.push(marker);
+          //this will populate the marker with the attributes from the db
+          await storeData({...address,"currentMarkerId":newMapMarkerCounter});
+
+          let avgStarRating = await getAvgStarRating(newMapMarkers[newMapMarkerCounter].houseId)
+
           let content = `Adding location: <br/>
             ${address.house_num} ${address.street}, <br/>
             ${address.city}, ${address.state} <br/>
             <p>${removeMakerLink}</p>
-            ${getStarComponent(newMapMarkerCounter)}
+            ${getStarComponent(newMapMarkerCounter, avgStarRating)}
             ${inputForm(newMapMarkerCounter)}`;
+          
           addInfoWindow(marker, latLng, content);
-          marker.address = address;
-          newMapMarkers.push(marker);
-          storeData({...address,"currentMarkerId":newMapMarkerCounter});
+          
+          
         }); 
     }
   }
@@ -246,17 +253,17 @@ function getFormSubmission(markerId){
     });
   });
 }
-function getStarComponent(markerId){
+function getStarComponent(markerId, avgStarRating){
 	let starHtml = `<div id="rating-el-${markerId}">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="star-rating text-center pt-2">
-					<span class="bi bi-star" data-rating="1"></span>
-					<span class="bi bi-star" data-rating="2"></span>
-					<span class="bi bi-star" data-rating="3"></span>
-					<span class="bi bi-star" data-rating="4"></span>
-					<span class="bi bi-star" data-rating="5"></span>
-					<input type="hidden" name="rating-value" class="rating-value" value="0">
+					<span class="bi bi-${(avgStarRating<=1)?"-star-fill":"star"}" data-rating="1"></span>
+					<span class="bi bi-${(avgStarRating<=2)?"-star-fill":"star"}" data-rating="2"></span>
+					<span class="bi bi-${(avgStarRating<=3)?"-star-fill":"star"}" data-rating="3"></span>
+					<span class="bi bi-${(avgStarRating<=4)?"-star-fill":"star"}" data-rating="4"></span>
+					<span class="bi bi-${(avgStarRating<=5)?"-star-fill":"star"}" data-rating="5"></span>
+					<input type="hidden" name="rating-value" class="rating-value" value="${avgStarRating}">
 				</div>
 			</div>
 		</div>
@@ -356,7 +363,6 @@ function addInfoWindow(marker, latLng, content) {
   });
 	google.maps.event.addListener(marker.infoWindow, 'domready', async function() {
 		setRatingStar(marker.id);
-    document.getElementById(`rating-el-${marker.id}`).querySelector(".star-rating").querySelector(".rating-value").value = await getAvgStarRating(newMapMarkers[marker.id].houseId);
     getFormSubmission(marker.id);
 	});
 }
