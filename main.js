@@ -59,6 +59,9 @@ async function storeData(dataIn){
     newMapMarkers[dataIn.currentMarkerId].lightType = type;
     let radio = (data.lightRadio)?data.lightRadio:(foundFullAddress[0] && foundFullAddress[0].radio)?foundFullAddress[0].radio:"";
     newMapMarkers[dataIn.currentMarkerId].lightRadio = radio;
+    let liveDateUnformatted = new Date();
+    let live_date = (data.liveDate)?data.liveDate:(foundFullAddress[0] && foundFullAddress[0].live_date)?foundFullAddress[0].live_date:liveDateUnformatted.toISOString().split('T')[0];
+    newMapMarkers[dataIn.currentMarkerId].lightRadio = radio;
     let dataToInsert = { 
       full_address, 
       st_address,
@@ -66,7 +69,9 @@ async function storeData(dataIn){
       state,
       title,
       type,
-      radio
+      radio,
+      live_date,
+      updated_at: new Date()
     };
 
     if(foundFullAddress.length > 0){
