@@ -251,7 +251,7 @@ function inputForm(markerId){
         </div>
       </div>
       <div class="optional-types pt-0 pb-1">
-        <dir class="row row-cols-4">
+        <dir class="row align-items-center row-cols-4 mb-0">
           <div class="col">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="opt-gb-${markerId}">
