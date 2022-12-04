@@ -12,7 +12,13 @@
   cursor: pointer;
   object-fit: contain;
 }
-
+.gm-ui-hover-effect>span{
+  width: 32px;
+  height: 32px;
+  margin: 0px;
+  margin-left: -5px;
+  margin-top: 5px;
+}
 .color--gray {
   color: gray;
 }
