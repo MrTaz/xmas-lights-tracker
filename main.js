@@ -44,6 +44,7 @@ async function storeData(dataIn){
         break;
     };
     full_address = `${st_address}, ${city_town} ${state}`;
+
     let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
     if(selectError) console.warn("Error when selecting house:", selectError);
     console.log("select houses: ", selectHouses);
@@ -51,25 +52,34 @@ async function storeData(dataIn){
       return obj.full_address === full_address;
     });
     console.log("If house found, foundFullAddress is ", foundFullAddress[0]);
+
+    let title = (data.lightTitle)?data.lightTitle:(foundFullAddress[0].title)?foundFullAddress[0].title:"";
+    newMapMarkers[dataIn.currentMarkerId].lightTitle = title;
+    let type = (data.lightType)?data.lightType:(foundFullAddress[0].type)?foundFullAddress[0].type:"Unknown";
+    newMapMarkers[dataIn.currentMarkerId].lightType = type;
+    let radio = (data.lightRadio)?data.lightRadio:(foundFullAddress[0].radio)?foundFullAddress[0].radio:"";
+    newMapMarkers[dataIn.currentMarkerId].lightRadio = radio;
     let dataToInsert = { 
       full_address, 
       st_address,
       city_town,
       state,
-      title: (data.lightTitle)?data.lightTitle:(foundFullAddress[0].title)?foundFullAddress[0].title:"",
-      type: (data.lightType)?data.lightType:(foundFullAddress[0].type)?foundFullAddress[0].type:"Unknown",
-      radio: (data.lightRadio)?data.lightRadio:(foundFullAddress[0].radio)?foundFullAddress[0].radio:""
+      title,
+      type,
+      radio
     };
+
     if(foundFullAddress.length > 0){
-      newMapMarkers[dataIn.currentMarkerId].houseId = foundFullAddress[0].id;
       console.log("Data being updated: ", dataToInsert);
-      const { error } = await _supabase.from('houses').update(dataToInsert).eq('id', foundFullAddress[0].id);
-      if(error) console.warn("Error when Updating house:", error);
+      const { data: updateData, error: updateError } = await _supabase.from('houses').update(dataToInsert).eq('id', foundFullAddress[0].id).select();
+      if(updateError) console.warn("Error when Updating house:", updateError);
+      console.log("updated house:", updateData);
+      newMapMarkers[dataIn.currentMarkerId].houseId = updateData[0].id;
     }else{
       console.log("Data being inserted: ", dataToInsert);
       const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]).select();
       if(insertError) console.warn("Error when inserting house:", insertError);
-      console.log("insert houses: ", insertData);
+      console.log("inserted house: ", insertData);
       newMapMarkers[dataIn.currentMarkerId].houseId = insertData[0].id;
     }
   }
@@ -94,7 +104,7 @@ async function storeStarRating(houseId, dataIn){
     return new Error("Invalid rating passed to star rating storage");
   }
 }
-async function getAvgStarRating(houseId){
+async function loadAvgStarRating(houseId){
   if(!houseId){
     return new Error("Invalid house id passed to star rating storage");
   }
@@ -104,6 +114,8 @@ async function getAvgStarRating(houseId){
   const avgStarRating = Math.round(selectStarRatings.reduce((r, c) => r + c.rating, 0) / selectStarRatings.length);
   return avgStarRating;
 }
+
+
 //This function is inokved asynchronously by the HTML5 geolocation API.
 function displayLocation(position) {
   //The latitude and longitude values obtained from HTML 5 API.
@@ -191,7 +203,7 @@ function createMarker(latLng, placeResult, isUserMarker) {
           //this will populate the marker with the attributes from the db
           await storeData({...address,"currentMarkerId":newMapMarkerCounter});
 
-          let avgStarRating = await getAvgStarRating(newMapMarkers[newMapMarkerCounter].houseId)
+          let avgStarRating = await loadAvgStarRating(newMapMarkers[newMapMarkerCounter].houseId)
           let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
 
           let content = `Adding location: <br/>
@@ -207,12 +219,13 @@ function createMarker(latLng, placeResult, isUserMarker) {
   }
 }
 function inputForm(markerId){
+  const loadedHouse = newMapMarkers[markerId];
 	let inputFormHtml = `<form id="entry-form-${markerId}" action="">
 		<div class="form-group">
-			<input type="text" class="form-control form-control-xs" placeholder="Enter Title  or none" id="title-${markerId}" />
+			<input type="text" class="form-control form-control-xs" value="${loadedHouse.lightTitle}" placeholder="Enter Title  or none" id="title-${markerId}" />
 		</div>
 		<div class="form-group">
-      <input type="text" class="form-control form-control-xs" placeholder="Enter Radio  Station" id="radio-${markerId}" />
+      <input type="text" class="form-control form-control-xs" value="${loadedHouse.lightRadio}" placeholder="Enter Radio  Station" id="radio-${markerId}" />
     </div>
 		<div class="light-types">
 			<input id="type-flat-${markerId}" type="radio" name="type-${markerId}" value="Flat" />
