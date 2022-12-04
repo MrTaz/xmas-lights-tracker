@@ -285,11 +285,6 @@ function setRatingStar(markerId){
     newMapMarkers[markerId].starRating = rating;
     storeStarRating(newMapMarkers[markerId].houseId, {"starRating":rating,"currentMarkerId":markerId});
   }
-  const setRating = async () => {
-    starRatingInput.value = await getAvgStarRating(newMapMarkers[markerId].houseId);
-    rating = starRatingInput.value;
-    renderRating(rating);
-  }
 	const getRating = () => {
     return rating;
   }
