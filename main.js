@@ -5,6 +5,7 @@ let mapInitialized = false;
 let newMapMarkerCounter = -1;
 let newMapMarkers = [];
 let userMarker; //: google.maps.Marker
+let activeInfoWindow; 
 
 function showError(error) {
   switch(error.code) {
@@ -344,7 +345,10 @@ function addInfoWindow(marker, latLng, content) {
   };
 	
   marker.infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+
+  if (activeInfoWindow) { activeInfoWindow.close();}
   marker.infoWindow.open(map);
+  activeInfoWindow = marker.infowindow;
 	
   google.maps.event.addListener(marker, 'click', function() {
     marker.infoWindow.open(map);
