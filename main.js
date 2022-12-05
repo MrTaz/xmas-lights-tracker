@@ -171,7 +171,7 @@ function createMarker(latLng, placeResult, isUserMarker) {
       map: map,
       animation: google.maps.Animation.DROP,
       clickable: false,
-      icon: "https://icons.iconarchive.com/icons/iconka/santa-stickers/32/santa-reindeer-icon.png",
+      icon: "./assets/santa-reindeer-icon.png",
       title: "You",
       id: newMapMarkerCounter
     });
