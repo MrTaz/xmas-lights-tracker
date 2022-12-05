@@ -27,10 +27,16 @@
   line-height: 32px;
   font-size: 2.25em;
 }
-
 .star-rating .fa-star {
 	color: black;
 }
+.bi-star {
+  content: url("assets/blub.png") !important;
+}
+.bi-star-fill {
+  content: url("assets/blub-fill.png") !important;
+}
+
 
 .light-types{
 	text-align: center;
