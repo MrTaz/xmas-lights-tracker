@@ -31,10 +31,10 @@
 	color: black;
 }
 .bi-star {
-  content: url("assets/blub.png") !important;
+  content: url("assets/bulb.png") !important;
 }
 .bi-star-fill {
-  content: url("assets/blub-fill.png") !important;
+  content: url("assets/bulb-fill.png") !important;
 }
 
 
