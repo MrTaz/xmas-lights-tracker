@@ -52,6 +52,16 @@ async function storeData(dataIn){
   //   return marker.id === dataIn.currentMarkerId;
   // });
   console.log("Data in marker array:", data);
+
+  if(data.house_num && data.street && data.city && data.state){
+    //if loaded data and using dataIn, then we need to create the address object
+    data.address = {
+      house_num: data.house_num,
+      street: data.street,
+      city: data.city,
+      state: data.state
+    };
+  }
   if(data.address.house_num && data.address.street && data.address.city && data.address.state){
     let st_address, city_town, state, full_address, house_num, street;
     house_num = data.address.house_num;
