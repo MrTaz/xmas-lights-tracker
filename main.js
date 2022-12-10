@@ -81,7 +81,7 @@ async function storeData(dataIn){
         break;
     };
     full_address = `${st_address}, ${city_town} ${state}`;
-
+    console.debug("looking for full address:", full_address);
     let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
     if(selectError) console.warn("Error when selecting house:", selectError);
     console.log("select houses: ", selectHouses);
