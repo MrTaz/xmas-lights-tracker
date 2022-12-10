@@ -514,7 +514,7 @@ function addInfoWindow(marker, latLng, content) {
   };
 	
   marker.infoWindow = new google.maps.InfoWindow(infoWindowOptions);
-
+console.log("Marker with info window:", marker);
   if (activeInfoWindow) { activeInfoWindow.close();}
   marker.infoWindow.open(map);
   activeInfoWindow = marker.infoWindow;
