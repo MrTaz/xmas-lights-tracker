@@ -7,6 +7,7 @@ let newMapMarkers = [];
 let userMarker; //: google.maps.Marker
 let activeInfoWindow;
 let followTheUser = true;
+let ALL_LOADED_HOUSES = null;
 
 function showError(error) {
   switch(error.code) {
@@ -24,10 +25,17 @@ function showError(error) {
       break;
   }
 }
-
-async function loadData(){
-  let { data: allHouses, error: selectError } = await _supabase.from('houses').select();
+const preLoadAllHouses = async () => {
+  console.debug("looking for full address:", full_address);
+  let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
   if(selectError) console.warn("Error when selecting house:", selectError);
+  console.log("select houses: ", selectHouses);
+  ALL_LOADED_HOUSES = selectHouses;
+}
+async function loadData(){
+  // let { data: allHouses, error: selectError } = await _supabase.from('houses').select();
+  // if(selectError) console.warn("Error when selecting house:", selectError);
+  let allHouses = ALL_LOADED_HOUSES;
   allHouses.forEach(async (house, index)=>{
     console.log("House", house, index);
 
@@ -80,11 +88,12 @@ async function storeData(dataIn){
         break;
     };
     full_address = `${st_address}, ${city_town} ${state}`;
-    console.debug("looking for full address:", full_address);
-    let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
-    if(selectError) console.warn("Error when selecting house:", selectError);
-    console.log("select houses: ", selectHouses);
-    let foundFullAddress = selectHouses.filter(obj => {
+    // console.debug("looking for full address:", full_address);
+    // let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
+    // if(selectError) console.warn("Error when selecting house:", selectError);
+    // console.log("select houses: ", selectHouses);
+    let allHouses = ALL_LOADED_HOUSES;
+    let foundFullAddress = allHouses.filter(obj => {
       return obj.full_address === full_address;
     });
     console.log("If house found, foundFullAddress is ", foundFullAddress[0]);
@@ -163,6 +172,9 @@ async function loadAvgStarRating(houseId){
 
 //This function is inokved asynchronously by the HTML5 geolocation API.
 function displayLocation(position) {
+  preLoadAllHouses().then(()=>{
+
+  })
   //The latitude and longitude values obtained from HTML 5 API.
   let latitude = position.coords.latitude;
   let longitude = position.coords.longitude;
@@ -226,11 +238,11 @@ function createFollowMeButton(map) {
   return controlButton;
 }
 function initMap(center) {
-  loadData();
   map = new google.maps.Map(document.getElementById("map-canvas"), {
     center,
     zoom: 16
   });
+  loadData();
   // Create the DIV to hold the control.
   const centerControlDiv = document.createElement("div");
   // Create the control.
