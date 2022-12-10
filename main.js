@@ -58,8 +58,8 @@ async function loadData(){
       ${address.house_num} ${address.street}, <br/>
       ${address.city}, ${address.state} <br/>
       <p>${removeMakerLink}</p>
-      ${getStarComponent(house.id, avgStarRating)}
-      ${inputForm(house.id)}`;
+      ${getStarComponent(house.id, avgStarRating)}`;
+      // ${inputForm(house.id)}`;
 
     newMapMarkerCounter = (house.id > newMapMarkerCounter)?house.id:newMapMarkerCounter;
 
@@ -590,6 +590,6 @@ function addInfoWindow(marker, latLng, content, doNotOpenWindow) {
   });
 	google.maps.event.addListener(marker.infoWindow, 'domready', function() {
 		setRatingStar(marker.id);
-    getFormSubmission(marker.id);
+    // getFormSubmission(marker.id);
 	});
 }
