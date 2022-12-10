@@ -26,7 +26,6 @@ function showError(error) {
   }
 }
 const preLoadAllHouses = async () => {
-  console.debug("looking for full address:", full_address);
   let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
   if(selectError) console.warn("Error when selecting house:", selectError);
   console.log("select houses: ", selectHouses);
@@ -92,11 +91,12 @@ async function storeData(dataIn){
     // let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
     // if(selectError) console.warn("Error when selecting house:", selectError);
     // console.log("select houses: ", selectHouses);
+    console.debug("looking for full address:", full_address);
     let allHouses = ALL_LOADED_HOUSES;
     let foundFullAddress = allHouses.filter(obj => {
       return obj.full_address === full_address;
     });
-    console.log("If house found, foundFullAddress is ", foundFullAddress[0]);
+    console.debug("If house found, foundFullAddress is ", foundFullAddress[0]);
 
     let title = (data.lightTitle)?data.lightTitle:(foundFullAddress[0] && foundFullAddress[0].title)?foundFullAddress[0].title:"";
     data.lightTitle = title;
