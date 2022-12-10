@@ -221,7 +221,8 @@ function updateMarkerLocation(latLng) {
   }
 }
 function followUserMarkerLocation(latLng){
-  map.panTo(latLng);
+  // map.panTo(latLng);
+  map.setCenter(latLng);
 }
 
 
