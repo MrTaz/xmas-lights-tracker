@@ -32,8 +32,10 @@ async function loadData(){
     console.log("House", house, index);
 
     if(!house.latlng){
-      storeData(house).then((updatedHouse)=>{
-        createMarker(updatedHouse.latLng, updatedHouse);
+      getlatLngFromAddress(house.full_address).then((latLng)=>{
+        house.position = latLng;
+        storeData(house);
+        createMarker(latLng, house);
       }).catch((error)=>{
         console.warn("Failed to load latLng:", error);
       });
@@ -45,10 +47,10 @@ async function loadData(){
 
 async function storeData(dataIn){
   console.log("Store this data:", dataIn);
-  // let data = newMapMarkers[dataIn.currentMarkerId] || dataIn;
-  let data = newMapMarkers.find(marker => {
-    return marker.id === dataIn.currentMarkerId;
-  }) || dataIn;
+  let data = newMapMarkers[dataIn.currentMarkerId] || dataIn;
+  // let data = newMapMarkers.find(marker => {
+  //   return marker.id === dataIn.currentMarkerId;
+  // });
   console.log("Data in marker array:", data);
   if(data.address.house_num && data.address.street && data.address.city && data.address.state){
     let st_address, city_town, state, full_address, house_num, street;
@@ -108,14 +110,12 @@ async function storeData(dataIn){
       if(updateError) console.warn("Error when Updating house:", updateError);
       console.log("updated house:", updateData);
       data.houseId = updateData[0].id;
-      return updateData;
     }else{
       console.log("Data being inserted: ", dataToInsert);
       const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]).select();
       if(insertError) console.warn("Error when inserting house:", insertError);
       console.log("inserted house: ", insertData);
       data.houseId = insertData[0].id;
-      return insertData;
     }
   }
 }
