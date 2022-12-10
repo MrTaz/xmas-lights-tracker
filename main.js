@@ -67,14 +67,14 @@ async function loadData(){
       getlatLngFromAddress(house.full_address).then((latLng)=>{
         houseMarker.setPosition(latLng);
         newMapMarkers.push(houseMarker);
-        addInfoWindow(houseMarker, latLng, content);
+        addInfoWindow(houseMarker, latLng, content, true);
       }).catch((error)=>{
         console.warn("Failed to load latLng:", error);
       });
     }else{
       houseMarker.setPosition(house.latlng);
       newMapMarkers.push(houseMarker);
-      addInfoWindow(houseMarker, house.latlng, content);
+      addInfoWindow(houseMarker, house.latlng, content, true);
     }
   })
 }
@@ -561,7 +561,8 @@ async function removeMarker(markerId){
   google.maps.event.clearListeners(marker, 'click');
   marker.setMap(null);
 }
-function addInfoWindow(marker, latLng, content) {
+
+function addInfoWindow(marker, latLng, content, doNotOpenWindow) {
   let infoWindowOptions = {
     content: content,
     position: latLng
@@ -570,7 +571,9 @@ function addInfoWindow(marker, latLng, content) {
   marker.infoWindow = new google.maps.InfoWindow(infoWindowOptions);
 console.log("Marker with info window:", marker);
   if (activeInfoWindow) { activeInfoWindow.close();}
-  marker.infoWindow.open(map);
+  if(!doNotOpenWindow){
+    marker.infoWindow.open(map);
+  }
   activeInfoWindow = marker.infoWindow;
 	
   google.maps.event.addListener(marker, 'click', function() {
