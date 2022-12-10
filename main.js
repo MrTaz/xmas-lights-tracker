@@ -5,7 +5,8 @@ let mapInitialized = false;
 let newMapMarkerCounter = -1;
 let newMapMarkers = [];
 let userMarker; //: google.maps.Marker
-let activeInfoWindow; 
+let activeInfoWindow;
+let followTheUser = true;
 
 function showError(error) {
   switch(error.code) {
@@ -149,20 +150,60 @@ function getMyLocation() {
     console.error('Oops, no geolocation support');
   }
 }
-
+function createFollowMeButton(map) {
+  const controlButton = document.createElement("button");
+  // Set CSS for the control.
+  controlButton.style.backgroundColor = "#fff";
+  controlButton.style.border = "2px solid #fff";
+  controlButton.style.borderRadius = "3px";
+  controlButton.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+  controlButton.style.color = "rgb(25,25,25)";
+  controlButton.style.cursor = "pointer";
+  controlButton.style.fontFamily = "Roboto,Arial,sans-serif";
+  controlButton.style.fontSize = "16px";
+  controlButton.style.lineHeight = "38px";
+  controlButton.style.margin = "8px 0 22px";
+  controlButton.style.padding = "0 5px";
+  controlButton.style.textAlign = "center";
+  controlButton.textContent = "Follow Santa";
+  controlButton.title = "Click to stop following Santa";
+  controlButton.type = "button";
+  // Setup the click event listeners: simply set the map to Chicago.
+  controlButton.addEventListener("click", () => {
+    // map.setCenter(chicago);
+    followTheUser = (followTheUser)?false:true;
+  });
+  return controlButton;
+}
 function initMap(center) {
   map = new google.maps.Map(document.getElementById("map-canvas"), {
     center,
     zoom: 16
   });
+  // Create the DIV to hold the control.
+  const centerControlDiv = document.createElement("div");
+  // Create the control.
+  const centerControl = createFollowMeButton(map);
+  // Append the control to the DIV.
+  centerControlDiv.appendChild(centerControl);
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
   mapInitialized = true;
 	map.addListener("click", (mapsMouseEvent) => {
 		createMarker(mapsMouseEvent.latLng);
 	});
 }
 function updateMarkerLocation(latLng) {
-  userMarker.setPosition(latLng)
+  userMarker.setPosition(latLng);
+  if(followTheUser){
+    console.debug("Moving santa...", latLng);
+    followUserMarkerLocation(latLng);
+  }
 }
+function followUserMarkerLocation(latLng){
+  map.panTo(latLng);
+}
+
+
 function createMarker(latLng, placeResult, isUserMarker) {
 	newMapMarkerCounter++;
   if (isUserMarker && !userMarker) {
@@ -227,10 +268,10 @@ function inputForm(markerId){
   const loadedHouse = newMapMarkers[markerId];
 	let inputFormHtml = `<form id="entry-form-${markerId}" action="">
       <div class="form-group">
-        <input type="text" class="form-control form-control-xs" value="${loadedHouse.lightTitle}" placeholder="Enter Title  or none" id="title-${markerId}" />
+        <input type="text" class="form-control form-control-xs" value="${(loadedHouse.lightTitle)?loadedHouse.lightTitle:""}" placeholder="Enter Title  or none" id="title-${markerId}" />
       </div>
       <div class="form-group">
-        <input type="text" class="form-control form-control-xs" value="${loadedHouse.lightRadio}" placeholder="Enter Radio  Station" id="radio-${markerId}" />
+        <input type="text" class="form-control form-control-xs" value="${(loadedHouse.lightRadio)?loadedHouse.lightRadio:""}" placeholder="Enter Radio  Station" id="radio-${markerId}" />
       </div>
       <div class="light-types pt-0 pb-1">
         <div class="row">
@@ -302,10 +343,10 @@ function inputForm(markerId){
         </div>
       </div>
       <div class="form-group">
-        <input type="text" class="form-control form-control-xs" value="${loadedHouse.weblink}" placeholder="Enter Web Link" id="web-link-${markerId}" />
+        <input type="text" class="form-control form-control-xs" value="${(loadedHouse.weblink)?loadedHouse.weblink:""}" placeholder="Enter Web Link" id="web-link-${markerId}" />
       </div>
       <div class="form-group">
-        <input type="text" class="form-control form-control-xs" value="${loadedHouse.hours}" placeholder="Enter Hours" id="hours-${markerId}" />
+        <input type="text" class="form-control form-control-xs" value="${(loadedHouse.hours)?loadedHouse.hours:""}" placeholder="Enter Hours" id="hours-${markerId}" />
       </div>
       <div class="form-group">
         <label for="notes-${markerId}">Notes/Charity Details</label>
