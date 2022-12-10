@@ -173,23 +173,22 @@ async function loadAvgStarRating(houseId){
 //This function is inokved asynchronously by the HTML5 geolocation API.
 function displayLocation(position) {
   preLoadAllHouses().then(()=>{
-
-  })
-  //The latitude and longitude values obtained from HTML 5 API.
-  let latitude = position.coords.latitude;
-  let longitude = position.coords.longitude;
-	//console.log("Coords", longitude, latitude)
-  //Creating a new object for using latitude and longitude values with Google map.
-  let latLng = new google.maps.LatLng(latitude, longitude);
-  //Also setting the latitude and longitude values in another div.
-  let div = document.getElementById('location');
-  div.innerHTML = 'You are at Latitude: ' + latitude + ', Longitude: ' + longitude;
-  if(!mapInitialized){
-    initMap(latLng);
-    createMarker(latLng, "", true);
-  }else{
-    updateMarkerLocation(latLng);
-  }
+    //The latitude and longitude values obtained from HTML 5 API.
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+    //console.log("Coords", longitude, latitude)
+    //Creating a new object for using latitude and longitude values with Google map.
+    let latLng = new google.maps.LatLng(latitude, longitude);
+    //Also setting the latitude and longitude values in another div.
+    let div = document.getElementById('location');
+    div.innerHTML = 'You are at Latitude: ' + latitude + ', Longitude: ' + longitude;
+    if(!mapInitialized){
+      initMap(latLng);
+      createMarker(latLng, "", true);
+    }else{
+      updateMarkerLocation(latLng);
+    }
+  });
 }
 
 function getMyLocation() {
