@@ -154,8 +154,8 @@ function createFollowMeButton(map) {
   const controlButton = document.createElement("button");
   // Set CSS for the control.
   controlButton.style.backgroundColor = "green";
-  controlButton.style.border = "2px solid #fff";
-  controlButton.style.borderRadius = "3px";
+  controlButton.style.border = "0px solid #fff";
+  controlButton.style.borderRadius = "25px";
   controlButton.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
   controlButton.style.color = "white";
   controlButton.style.cursor = "pointer";
