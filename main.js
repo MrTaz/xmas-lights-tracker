@@ -55,6 +55,7 @@ async function loadData(){
       weblink: house.web_link,
       address: address
     });
+    newMapMarkerCounter = (house.id > newMapMarkerCounter)?house.id:newMapMarkerCounter;
     newMapMarkers.push(houseMarker);
   })
 }
