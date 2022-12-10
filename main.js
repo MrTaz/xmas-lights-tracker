@@ -29,13 +29,34 @@ async function loadData(){
   let { data: allHouses, error: selectError } = await _supabase.from('houses').select();
   if(selectError) console.warn("Error when selecting house:", selectError);
   // console.debug("all houses: ", allHouses);
-  allHouses.forEach((house, index)=>{
+  allHouses.forEach(async (house, index)=>{
     console.log("House", house, index);
-    // newMapMarkers.push(house);
+    let latLng = house.latLng;
+    if(!latLng){
+      latLng = await getlatLngFromAddress(house.full_address);
+    }
+    let address =  {
+      city: house.city_town,
+      house_num: house.house_num,
+      state: house.state,
+      street: house.street
+    }
+    let houseMarker = new google.maps.Marker({
+      position: latLng,
+      map: map,
+      animation: google.maps.Animation.DROP,
+      clickable: false,
+      id: house.houseId,
+      lightRadio: house.radio,
+      lightTitle: house.Title,
+      title: house.Title,
+      lightType: house.type,
+      hours: house.hours,
+      weblink: house.web_link,
+      address: address
+    });
+    newMapMarkers.push(houseMarker);
   })
-  // marker.address
-  // lightType
-  // getlatLngFromAddress(address)
 }
 
 async function storeData(dataIn){
@@ -43,7 +64,9 @@ async function storeData(dataIn){
   let data = newMapMarkers[dataIn.currentMarkerId];
   console.log("Data in marker array:", data);
   if(data.address.house_num && data.address.street && data.address.city && data.address.state){
-    let st_address, city_town, state, full_address;
+    let st_address, city_town, state, full_address, house_num, street;
+    house_num = data.address.house_num;
+    street = data.address.street;
     st_address = `${data.address.house_num} ${data.address.street}`;
     city_town = data.address.city;
     switch(data.address.state){
@@ -77,6 +100,8 @@ async function storeData(dataIn){
     let live_date = (data.liveDate)?data.liveDate:(foundFullAddress[0] && foundFullAddress[0].live_date)?foundFullAddress[0].live_date:liveDateUnformatted.toISOString().split('T')[0];
     newMapMarkers[dataIn.currentMarkerId].lightRadio = radio;
     let dataToInsert = { 
+      street,
+      house_num,
       full_address, 
       st_address,
       city_town,
