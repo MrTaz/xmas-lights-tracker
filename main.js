@@ -46,7 +46,7 @@ async function loadData(){
       map: map,
       animation: google.maps.Animation.DROP,
       clickable: false,
-      id: house.houseId,
+      id: house.id,
       lightRadio: house.radio,
       lightTitle: house.Title,
       title: house.Title,
