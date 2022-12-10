@@ -32,9 +32,9 @@ const preLoadAllHouses = async () => {
   ALL_LOADED_HOUSES = selectHouses;
 }
 async function loadData(){
-  // let { data: allHouses, error: selectError } = await _supabase.from('houses').select();
-  // if(selectError) console.warn("Error when selecting house:", selectError);
-  let allHouses = ALL_LOADED_HOUSES;
+  let { data: allHouses, error: selectError } = await _supabase.from('houses').select();
+  if(selectError) console.warn("Error when selecting house:", selectError);
+  // let allHouses = ALL_LOADED_HOUSES;
   allHouses.forEach(async (house, index)=>{
     console.log("House", house, index);
 
@@ -87,12 +87,11 @@ async function storeData(dataIn){
         break;
     };
     full_address = `${st_address}, ${city_town} ${state}`;
-    // console.debug("looking for full address:", full_address);
-    // let { data: selectHouses, error: selectError } = await _supabase.from('houses').select();
-    // if(selectError) console.warn("Error when selecting house:", selectError);
-    // console.log("select houses: ", selectHouses);
     console.debug("looking for full address:", full_address);
-    let allHouses = ALL_LOADED_HOUSES;
+    let { data: allHouses, error: selectError } = await _supabase.from('houses').select();
+    if(selectError) console.warn("Error when selecting house:", selectError);
+    console.log("select houses: ", allHouses);
+    // let allHouses = ALL_LOADED_HOUSES;
     let foundFullAddress = allHouses.filter(obj => {
       return obj.full_address === full_address;
     });
@@ -172,7 +171,7 @@ async function loadAvgStarRating(houseId){
 
 //This function is inokved asynchronously by the HTML5 geolocation API.
 function displayLocation(position) {
-  preLoadAllHouses().then(()=>{
+  // preLoadAllHouses().then(()=>{
     //The latitude and longitude values obtained from HTML 5 API.
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
@@ -188,7 +187,7 @@ function displayLocation(position) {
     }else{
       updateMarkerLocation(latLng);
     }
-  });
+  // });
 }
 
 function getMyLocation() {
