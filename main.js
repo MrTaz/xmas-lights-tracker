@@ -58,8 +58,8 @@ async function loadData(){
       ${address.house_num} ${address.street}, <br/>
       ${address.city}, ${address.state} <br/>
       <p>${removeMakerLink}</p>
-      ${getStarComponent(house.id, avgStarRating)}`;
-      // ${inputForm(house.id)}`;
+      ${getStarComponent(house.id, avgStarRating)}
+      ${inputForm(house.id)}`;
 
     newMapMarkerCounter = (house.id > newMapMarkerCounter)?house.id:newMapMarkerCounter;
 
@@ -114,15 +114,15 @@ async function storeData(dataIn){
     console.log("If house found, foundFullAddress is ", foundFullAddress[0]);
 
     let title = (data.lightTitle)?data.lightTitle:(foundFullAddress[0] && foundFullAddress[0].title)?foundFullAddress[0].title:"";
-    newMapMarkers[dataIn.currentMarkerId].lightTitle = title;
+    data.lightTitle = title;
     let type = (data.lightType)?data.lightType:(foundFullAddress[0] && foundFullAddress[0].type)?foundFullAddress[0].type:"Unknown";
-    newMapMarkers[dataIn.currentMarkerId].lightType = type;
+    data.lightType = type;
     let radio = (data.lightRadio)?data.lightRadio:(foundFullAddress[0] && foundFullAddress[0].radio)?foundFullAddress[0].radio:"";
-    newMapMarkers[dataIn.currentMarkerId].lightRadio = radio;
+    data.lightRadio = radio;
     let liveDateUnformatted = new Date();
     let live_date = (data.liveDate)?data.liveDate:(foundFullAddress[0] && foundFullAddress[0].live_date)?foundFullAddress[0].live_date:liveDateUnformatted.toISOString().split('T')[0];
-    newMapMarkers[dataIn.currentMarkerId].lightRadio = radio;
-    let latlng = (newMapMarkers[dataIn.currentMarkerId].position)?newMapMarkers[dataIn.currentMarkerId].position:await getlatLngFromAddress(house.full_address);
+    data.lightRadio = radio;
+    let latlng = (data.position)?data.position:await getlatLngFromAddress(house.full_address);
     let dataToInsert = { 
       street,
       house_num,
@@ -143,13 +143,13 @@ async function storeData(dataIn){
       const { data: updateData, error: updateError } = await _supabase.from('houses').update(dataToInsert).eq('id', foundFullAddress[0].id).select();
       if(updateError) console.warn("Error when Updating house:", updateError);
       console.log("updated house:", updateData);
-      newMapMarkers[dataIn.currentMarkerId].houseId = updateData[0].id;
+      data.houseId = updateData[0].id;
     }else{
       console.log("Data being inserted: ", dataToInsert);
       const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]).select();
       if(insertError) console.warn("Error when inserting house:", insertError);
       console.log("inserted house: ", insertData);
-      newMapMarkers[dataIn.currentMarkerId].houseId = insertData[0].id;
+      data.houseId = insertData[0].id;
     }
   }
 }
@@ -355,7 +355,9 @@ async function getlatLngFromAddress(address){
   });
 }
 function inputForm(markerId){
-  const loadedHouse = newMapMarkers[markerId];
+  const loadedHouse = newMapMarkers.find(marker => {
+    return marker.id === markerId;
+  });
 	let inputFormHtml = `<form id="entry-form-${markerId}" action="">
       <div class="form-group">
         <input type="text" class="form-control form-control-xs" value="${(loadedHouse.lightTitle)?loadedHouse.lightTitle:""}" placeholder="Enter Title  or none" id="title-${markerId}" />
