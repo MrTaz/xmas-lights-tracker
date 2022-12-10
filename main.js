@@ -322,7 +322,12 @@ async function getlatLngFromAddress(address){
   fetch('https://nominatim.openstreetmap.org/search?format=json&q='+address)
   .then((response)=>response.json())
   .then(async (data) => {
-    console.log(data);
+    console.debug("Retrieved lat lng: ", data);
+    let latLng = null;
+    if(data[0]){
+      latLng = new google.maps.LatLng(data[0].lat, data[0].log);
+    }
+    return latLng;
   });
 }
 function inputForm(markerId){
