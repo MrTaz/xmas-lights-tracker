@@ -31,7 +31,7 @@ async function loadData(){
   // console.debug("all houses: ", allHouses);
   allHouses.forEach(async (house, index)=>{
     console.log("House", house, index);
-    let latLng = house.latLng;
+    let latLng = house.latlng;
     if(!latLng){
       latLng = await getlatLngFromAddress(house.full_address);
     }
@@ -99,6 +99,7 @@ async function storeData(dataIn){
     let liveDateUnformatted = new Date();
     let live_date = (data.liveDate)?data.liveDate:(foundFullAddress[0] && foundFullAddress[0].live_date)?foundFullAddress[0].live_date:liveDateUnformatted.toISOString().split('T')[0];
     newMapMarkers[dataIn.currentMarkerId].lightRadio = radio;
+    let latlng = (newMapMarkers[dataIn.currentMarkerId].position)?newMapMarkers[dataIn.currentMarkerId].position:await getlatLngFromAddress(house.full_address);
     let dataToInsert = { 
       street,
       house_num,
@@ -106,6 +107,7 @@ async function storeData(dataIn){
       st_address,
       city_town,
       state,
+      latlng,
       title,
       type,
       radio,
