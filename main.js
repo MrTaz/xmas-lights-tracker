@@ -40,7 +40,7 @@ async function loadData(){
     let houseMarker = new google.maps.Marker({
       map: map,
       animation: google.maps.Animation.DROP,
-      clickable: false,
+      clickable: true,
       id: house.id,
       houseId: house.id,
       lightRadio: house.radio,
