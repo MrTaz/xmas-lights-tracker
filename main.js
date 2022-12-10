@@ -30,62 +30,25 @@ async function loadData(){
   if(selectError) console.warn("Error when selecting house:", selectError);
   allHouses.forEach(async (house, index)=>{
     console.log("House", house, index);
-    // let address =  {
-    //   city: house.city_town,
-    //   house_num: house.house_num,
-    //   state: house.state,
-    //   street: house.street
-    // }
-    // let houseMarker = new google.maps.Marker({
-    //   map: map,
-    //   animation: google.maps.Animation.DROP,
-    //   clickable: true,
-    //   id: house.id,
-    //   houseId: house.id,
-    //   lightRadio: house.radio,
-    //   lightTitle: house.Title,
-    //   title: house.Title,
-    //   lightType: house.type,
-    //   hours: house.hours,
-    //   weblink: house.web_link,
-    //   address: address
-    // });
-
-    // let avgStarRating = await loadAvgStarRating(house.id) || 0;
-    // let removeMakerLink = `<a href="#" onclick='removeMarker(${house.id});'>Remove marker</a>`;
-    // let content = `Loaded location: <br/>
-    //   ${address.house_num} ${address.street}, <br/>
-    //   ${address.city}, ${address.state} <br/>
-    //   <p>${removeMakerLink}</p>
-    //   ${getStarComponent(house.id, avgStarRating)}`;
-    //   // ${inputForm(house.id)}`;
-
-    // newMapMarkerCounter = (house.id > newMapMarkerCounter)?house.id:newMapMarkerCounter;
 
     if(!house.latlng){
-      getlatLngFromAddress(house.full_address).then((latLng)=>{
-        createMarker(latLng, house);
-        // houseMarker.setPosition(latLng);
-        // newMapMarkers.push(houseMarker);
-        // addInfoWindow(houseMarker, latLng, content, true);
+      storeData(house).then((updatedHouse)=>{
+        createMarker(updatedHouse.latLng, updatedHouse);
       }).catch((error)=>{
         console.warn("Failed to load latLng:", error);
       });
     }else{
       createMarker(house.latlng, house);
-      // houseMarker.setPosition(house.latlng);
-      // newMapMarkers.push(houseMarker);
-      // addInfoWindow(houseMarker, house.latlng, content, true);
     }
   })
 }
 
 async function storeData(dataIn){
   console.log("Store this data:", dataIn);
-  // let data = newMapMarkers[dataIn.currentMarkerId];
-  let data = newMapMarkers.find(marker => {
-    return marker.id === dataIn.currentMarkerId;
-  });
+  let data = newMapMarkers[dataIn.currentMarkerId];
+  // let data = newMapMarkers.find(marker => {
+  //   return marker.id === dataIn.currentMarkerId;
+  // });
   console.log("Data in marker array:", data);
   if(data.address.house_num && data.address.street && data.address.city && data.address.state){
     let st_address, city_town, state, full_address, house_num, street;
@@ -145,12 +108,14 @@ async function storeData(dataIn){
       if(updateError) console.warn("Error when Updating house:", updateError);
       console.log("updated house:", updateData);
       data.houseId = updateData[0].id;
+      return updateData;
     }else{
       console.log("Data being inserted: ", dataToInsert);
       const { data: insertData, error: insertError } = await _supabase.from('houses').insert([dataToInsert]).select();
       if(insertError) console.warn("Error when inserting house:", insertError);
       console.log("inserted house: ", insertData);
       data.houseId = insertData[0].id;
+      return insertData;
     }
   }
 }
