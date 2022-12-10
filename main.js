@@ -42,6 +42,7 @@ async function loadData(){
       animation: google.maps.Animation.DROP,
       clickable: false,
       id: house.id,
+      houseId: house.id,
       lightRadio: house.radio,
       lightTitle: house.Title,
       title: house.Title,
@@ -50,19 +51,30 @@ async function loadData(){
       weblink: house.web_link,
       address: address
     });
-    
+
+    let avgStarRating = await loadAvgStarRating(house.id) || 0;
+    let removeMakerLink = `<a href="#" onclick='removeMarker(${house.id});'>Remove marker</a>`;
+    let content = `Loaded location: <br/>
+      ${address.house_num} ${address.street}, <br/>
+      ${address.city}, ${address.state} <br/>
+      <p>${removeMakerLink}</p>
+      ${getStarComponent(house.id, avgStarRating)}
+      ${inputForm(house.id)}`;
+
     newMapMarkerCounter = (house.id > newMapMarkerCounter)?house.id:newMapMarkerCounter;
 
     if(!house.latlng){
       getlatLngFromAddress(house.full_address).then((latLng)=>{
         houseMarker.setPosition(latLng);
         newMapMarkers.push(houseMarker);
-        let content = "This is a test";
         addInfoWindow(houseMarker, latLng, content);
+      }).catch((error)=>{
+        console.warn("Failed to load latLng:", error);
       });
     }else{
       houseMarker.setPosition(house.latlng);
       newMapMarkers.push(houseMarker);
+      addInfoWindow(houseMarker, house.latlng, content);
     }
   })
 }
