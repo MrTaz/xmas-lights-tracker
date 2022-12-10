@@ -31,10 +31,6 @@ async function loadData(){
   // console.debug("all houses: ", allHouses);
   allHouses.forEach(async (house, index)=>{
     console.log("House", house, index);
-    let latLng = house.latlng;
-    if(!latLng){
-      latLng = await getlatLngFromAddress(house.full_address);
-    }
     let address =  {
       city: house.city_town,
       house_num: house.house_num,
@@ -55,8 +51,18 @@ async function loadData(){
       weblink: house.web_link,
       address: address
     });
+    
     newMapMarkerCounter = (house.id > newMapMarkerCounter)?house.id:newMapMarkerCounter;
-    newMapMarkers.push(houseMarker);
+
+    if(!house.latlng){
+      getlatLngFromAddress(house.full_address).then((latLng)=>{
+        houseMarker.setPosition(latLng);
+        newMapMarkers.push(houseMarker);
+      });
+    }else{
+      houseMarker.setPosition(house.latlng);
+      newMapMarkers.push(houseMarker);
+    }
   })
 }
 
