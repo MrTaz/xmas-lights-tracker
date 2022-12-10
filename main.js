@@ -25,6 +25,15 @@ function showError(error) {
   }
 }
 
+async function loadData(){
+  let { data: allHouses, error: selectError } = await _supabase.from('houses').select();
+  if(selectError) console.warn("Error when selecting house:", selectError);
+  console.debug("all houses: ", allHouses);
+  // marker.address
+  // lightType
+  // getlatLngFromAddress(address)
+}
+
 async function storeData(dataIn){
   console.log("Store this data:", dataIn);
   let data = newMapMarkers[dataIn.currentMarkerId];
@@ -187,6 +196,7 @@ function createFollowMeButton(map) {
   return controlButton;
 }
 function initMap(center) {
+  loadData();
   map = new google.maps.Map(document.getElementById("map-canvas"), {
     center,
     zoom: 16
@@ -274,6 +284,13 @@ function createMarker(latLng, placeResult, isUserMarker) {
         }); 
     }
   }
+}
+async function getlatLngFromAddress(address){
+  fetch('https://nominatim.openstreetmap.org/search?format=json&q='+address)
+  .then((response)=>response.json())
+  .then(async (data) => {
+    console.log(data);
+  });
 }
 function inputForm(markerId){
   const loadedHouse = newMapMarkers[markerId];
