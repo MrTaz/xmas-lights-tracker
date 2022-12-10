@@ -28,7 +28,11 @@ function showError(error) {
 async function loadData(){
   let { data: allHouses, error: selectError } = await _supabase.from('houses').select();
   if(selectError) console.warn("Error when selecting house:", selectError);
-  console.debug("all houses: ", allHouses);
+  // console.debug("all houses: ", allHouses);
+  allHouses.forEach((house, index)=>{
+    console.log("House", house, index);
+    // newMapMarkers.push(house);
+  })
   // marker.address
   // lightType
   // getlatLngFromAddress(address)
