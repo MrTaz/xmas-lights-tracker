@@ -45,10 +45,10 @@ async function loadData(){
 
 async function storeData(dataIn){
   console.log("Store this data:", dataIn);
-  let data = newMapMarkers[dataIn.currentMarkerId] || dataIn;
-  // let data = newMapMarkers.find(marker => {
-  //   return marker.id === dataIn.currentMarkerId;
-  // });
+  // let data = newMapMarkers[dataIn.currentMarkerId] || dataIn;
+  let data = newMapMarkers.find(marker => {
+    return marker.id === dataIn.currentMarkerId;
+  }) || dataIn;
   console.log("Data in marker array:", data);
   if(data.address.house_num && data.address.street && data.address.city && data.address.state){
     let st_address, city_town, state, full_address, house_num, street;
