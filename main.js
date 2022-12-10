@@ -38,7 +38,6 @@ async function loadData(){
       street: house.street
     }
     let houseMarker = new google.maps.Marker({
-      position: latLng,
       map: map,
       animation: google.maps.Animation.DROP,
       clickable: false,
