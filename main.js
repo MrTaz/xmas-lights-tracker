@@ -153,11 +153,11 @@ function getMyLocation() {
 function createFollowMeButton(map) {
   const controlButton = document.createElement("button");
   // Set CSS for the control.
-  controlButton.style.backgroundColor = "#fff";
+  controlButton.style.backgroundColor = "green";
   controlButton.style.border = "2px solid #fff";
   controlButton.style.borderRadius = "3px";
   controlButton.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-  controlButton.style.color = "rgb(25,25,25)";
+  controlButton.style.color = "white";
   controlButton.style.cursor = "pointer";
   controlButton.style.fontFamily = "Roboto,Arial,sans-serif";
   controlButton.style.fontSize = "16px";
@@ -165,13 +165,23 @@ function createFollowMeButton(map) {
   controlButton.style.margin = "8px 0 22px";
   controlButton.style.padding = "0 5px";
   controlButton.style.textAlign = "center";
-  controlButton.textContent = "Follow Santa";
+  controlButton.textContent = "Stop Following Santa";
   controlButton.title = "Click to stop following Santa";
   controlButton.type = "button";
   // Setup the click event listeners: simply set the map to Chicago.
   controlButton.addEventListener("click", () => {
     // map.setCenter(chicago);
-    followTheUser = (followTheUser)?false:true;
+    if(followTheUser){
+      controlButton.textContent = "Follow Santa";
+      controlButton.title = "Click to start following Santa";
+      controlButton.backgroundColor = "red";
+      followTheUser = false;
+    }else{
+      controlButton.textContent = "Stop Following";
+      controlButton.title = "Click to stop following Santa";
+      controlButton.backgroundColor = "green";
+      followTheUser = true;
+    }
   });
   return controlButton;
 }
