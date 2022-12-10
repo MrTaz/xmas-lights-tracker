@@ -28,53 +28,54 @@ function showError(error) {
 async function loadData(){
   let { data: allHouses, error: selectError } = await _supabase.from('houses').select();
   if(selectError) console.warn("Error when selecting house:", selectError);
-  // console.debug("all houses: ", allHouses);
   allHouses.forEach(async (house, index)=>{
     console.log("House", house, index);
-    let address =  {
-      city: house.city_town,
-      house_num: house.house_num,
-      state: house.state,
-      street: house.street
-    }
-    let houseMarker = new google.maps.Marker({
-      map: map,
-      animation: google.maps.Animation.DROP,
-      clickable: true,
-      id: house.id,
-      houseId: house.id,
-      lightRadio: house.radio,
-      lightTitle: house.Title,
-      title: house.Title,
-      lightType: house.type,
-      hours: house.hours,
-      weblink: house.web_link,
-      address: address
-    });
+    // let address =  {
+    //   city: house.city_town,
+    //   house_num: house.house_num,
+    //   state: house.state,
+    //   street: house.street
+    // }
+    // let houseMarker = new google.maps.Marker({
+    //   map: map,
+    //   animation: google.maps.Animation.DROP,
+    //   clickable: true,
+    //   id: house.id,
+    //   houseId: house.id,
+    //   lightRadio: house.radio,
+    //   lightTitle: house.Title,
+    //   title: house.Title,
+    //   lightType: house.type,
+    //   hours: house.hours,
+    //   weblink: house.web_link,
+    //   address: address
+    // });
 
-    let avgStarRating = await loadAvgStarRating(house.id) || 0;
-    let removeMakerLink = `<a href="#" onclick='removeMarker(${house.id});'>Remove marker</a>`;
-    let content = `Loaded location: <br/>
-      ${address.house_num} ${address.street}, <br/>
-      ${address.city}, ${address.state} <br/>
-      <p>${removeMakerLink}</p>
-      ${getStarComponent(house.id, avgStarRating)}`;
-      // ${inputForm(house.id)}`;
+    // let avgStarRating = await loadAvgStarRating(house.id) || 0;
+    // let removeMakerLink = `<a href="#" onclick='removeMarker(${house.id});'>Remove marker</a>`;
+    // let content = `Loaded location: <br/>
+    //   ${address.house_num} ${address.street}, <br/>
+    //   ${address.city}, ${address.state} <br/>
+    //   <p>${removeMakerLink}</p>
+    //   ${getStarComponent(house.id, avgStarRating)}`;
+    //   // ${inputForm(house.id)}`;
 
-    newMapMarkerCounter = (house.id > newMapMarkerCounter)?house.id:newMapMarkerCounter;
+    // newMapMarkerCounter = (house.id > newMapMarkerCounter)?house.id:newMapMarkerCounter;
 
     if(!house.latlng){
       getlatLngFromAddress(house.full_address).then((latLng)=>{
-        houseMarker.setPosition(latLng);
-        newMapMarkers.push(houseMarker);
-        addInfoWindow(houseMarker, latLng, content, true);
+        createMarker(latLng, house);
+        // houseMarker.setPosition(latLng);
+        // newMapMarkers.push(houseMarker);
+        // addInfoWindow(houseMarker, latLng, content, true);
       }).catch((error)=>{
         console.warn("Failed to load latLng:", error);
       });
     }else{
-      houseMarker.setPosition(house.latlng);
-      newMapMarkers.push(houseMarker);
-      addInfoWindow(houseMarker, house.latlng, content, true);
+      createMarker(house.latlng, house);
+      // houseMarker.setPosition(house.latlng);
+      // newMapMarkers.push(houseMarker);
+      // addInfoWindow(houseMarker, house.latlng, content, true);
     }
   })
 }
@@ -280,7 +281,7 @@ function followUserMarkerLocation(latLng){
 }
 
 
-function createMarker(latLng, placeResult, isUserMarker) {
+async function createMarker(latLng, house, isUserMarker) {
 	newMapMarkerCounter++;
   if (isUserMarker && !userMarker) {
     userMarker = new google.maps.Marker({
@@ -304,23 +305,48 @@ function createMarker(latLng, placeResult, isUserMarker) {
     };
     //Setting up the marker object to mark the location on the map canvas.
     let marker = new google.maps.Marker(markerOptions);
-    if (placeResult) {
-      let content = placeResult.name+'<br/>'+placeResult.vicinity+'<br/>'+placeResult.types;
-      addInfoWindow(marker, latLng, content);
+    if (house) {
+      // marker.id = house.id;
+      marker.houseId = house.id;
+      marker.lightRadio = house.radio;
+      marker.lightTitle = house.title;
+      marker.title = house.title;
+      marker.lightType = house.type;
+      marker.hours = house.hours;
+      marker.weblink = house.web_link;
+      marker.address =  {
+        city: house.city_town,
+        house_num: house.house_num,
+        state: house.state,
+        street: house.street
+      };
+
+      // let content = placeResult.name+'<br/>'+placeResult.vicinity+'<br/>'+placeResult.types;
+      // addInfoWindow(marker, latLng, content);
       newMapMarkers.push(marker);
+
+      let avgStarRating = await loadAvgStarRating(newMapMarkers[newMapMarkerCounter].houseId) || 0;
+      let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
+
+      let content = `Loaded location: <br/>
+        ${marker.address.house_num} ${marker.address.street}, <br/>
+        ${marker.address.city}, ${marker.address.state} <br/>
+        <p>${removeMakerLink}</p>
+        ${getStarComponent(newMapMarkerCounter, avgStarRating)}
+        ${inputForm(newMapMarkerCounter)}`;
+      
+      addInfoWindow(marker, latLng, content, true);
     } else { 
       // console.log(`Receieved latLng:`, latLng.lat(), latLng.lng());
       fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latLng.lat()}&lon=${latLng.lng()}&namedetails=1`)
         .then((response) => response.json())
         .then(async (data) => {
-          // console.log(`Found address info:`, data);
-          let address = {
+          marker.address = {
             house_num: data.address.house_number,
             street: data.address.road,
             city: data.address.village,
             state: data.address.state
           };
-          marker.address = address;
           newMapMarkers.push(marker);
           //this will populate the marker with the attributes from the db
           await storeData({...address,"currentMarkerId":newMapMarkerCounter});
@@ -329,8 +355,8 @@ function createMarker(latLng, placeResult, isUserMarker) {
           let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
 
           let content = `Adding location: <br/>
-            ${address.house_num} ${address.street}, <br/>
-            ${address.city}, ${address.state} <br/>
+            ${marker.address.house_num} ${marker.address.street}, <br/>
+            ${marker.address.city}, ${marker.address.state} <br/>
             <p>${removeMakerLink}</p>
             ${getStarComponent(newMapMarkerCounter, avgStarRating)}
             ${inputForm(newMapMarkerCounter)}`;
