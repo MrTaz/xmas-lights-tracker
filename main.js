@@ -174,12 +174,12 @@ function createFollowMeButton(map) {
     if(followTheUser){
       controlButton.textContent = "Follow Santa";
       controlButton.title = "Click to start following Santa";
-      controlButton.backgroundColor = "red";
+      controlButton.style.backgroundColor = "red";
       followTheUser = false;
     }else{
       controlButton.textContent = "Stop Following";
       controlButton.title = "Click to stop following Santa";
-      controlButton.backgroundColor = "green";
+      controlButton.style.backgroundColor = "green";
       followTheUser = true;
     }
   });
