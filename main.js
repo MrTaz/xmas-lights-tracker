@@ -553,13 +553,15 @@ function setRatingStar(markerId){
 
 async function removeMarker(markerId){
   console.log("attempting to remove marker", markerId);
-  newMapMarkers[markerId].lightType = "CANCELLED";
+  let foundMarker = newMapMarkers.find(marker => {
+    return marker.id === markerId
+  })
+  foundMarker.lightType = "CANCELLED";
   await storeData({"currentMarkerId":markerId});
-	let marker = newMapMarkers[markerId];
-	marker.infoWindow.close();
-	marker.infoWindow = null; 
-  google.maps.event.clearListeners(marker, 'click');
-  marker.setMap(null);
+	foundMarker.infoWindow.close();
+	foundMarker.infoWindow = null; 
+  google.maps.event.clearListeners(foundMarker, 'click');
+  foundMarker.setMap(null);
 }
 
 function addInfoWindow(marker, latLng, content, doNotOpenWindow) {
@@ -569,7 +571,7 @@ function addInfoWindow(marker, latLng, content, doNotOpenWindow) {
   };
 	
   marker.infoWindow = new google.maps.InfoWindow(infoWindowOptions);
-console.log("Marker with info window:", marker);
+
   if (activeInfoWindow) { activeInfoWindow.close();}
   if(!doNotOpenWindow){
     marker.infoWindow.open(map);
