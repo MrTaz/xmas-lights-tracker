@@ -45,7 +45,7 @@ async function loadData(){
 
 async function storeData(dataIn){
   console.log("Store this data:", dataIn);
-  let data = newMapMarkers[dataIn.currentMarkerId];
+  let data = newMapMarkers[dataIn.currentMarkerId] || dataIn;
   // let data = newMapMarkers.find(marker => {
   //   return marker.id === dataIn.currentMarkerId;
   // });
