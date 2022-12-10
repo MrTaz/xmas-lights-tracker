@@ -349,7 +349,7 @@ async function createMarker(latLng, house, isUserMarker) {
           };
           newMapMarkers.push(marker);
           //this will populate the marker with the attributes from the db
-          await storeData({...address,"currentMarkerId":newMapMarkerCounter});
+          await storeData({...data.address,"currentMarkerId":newMapMarkerCounter});
 
           let avgStarRating = await loadAvgStarRating(newMapMarkers[newMapMarkerCounter].houseId) || 0;
           let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
@@ -584,15 +584,14 @@ function setRatingStar(markerId){
 
 async function removeMarker(markerId){
   console.log("attempting to remove marker", markerId);
-  let foundMarker = newMapMarkers.find(marker => {
-    return marker.id === markerId
-  });
-  foundMarker.lightType = "CANCELLED";
+  // let foundMarker = newMapMarkers[markerId];
+  // foundMarker.lightType = "CANCELLED";
+  newMapMarkers[markerId].lightType = "CANCELLED";
+	newMapMarkers[markerId].infoWindow.close();
+	newMapMarkers[markerId].infoWindow = null; 
+  google.maps.event.clearListeners(newMapMarkers[markerId], 'click');
+  newMapMarkers[markerId].setMap(null);
   await storeData({"currentMarkerId":markerId});
-	foundMarker.infoWindow.close();
-	foundMarker.infoWindow = null; 
-  google.maps.event.clearListeners(foundMarker, 'click');
-  foundMarker.setMap(null);
 }
 
 function addInfoWindow(marker, latLng, content, doNotOpenWindow) {
@@ -616,6 +615,6 @@ function addInfoWindow(marker, latLng, content, doNotOpenWindow) {
   });
 	google.maps.event.addListener(marker.infoWindow, 'domready', function() {
 		setRatingStar(marker.id);
-    // getFormSubmission(marker.id);
+    getFormSubmission(marker.id);
 	});
 }
