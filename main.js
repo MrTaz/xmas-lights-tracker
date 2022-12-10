@@ -177,6 +177,7 @@ function createFollowMeButton(map) {
       controlButton.style.backgroundColor = "red";
       followTheUser = false;
     }else{
+      getMyLocation();
       controlButton.textContent = "Stop Following";
       controlButton.title = "Click to stop following Santa";
       controlButton.style.backgroundColor = "green";
