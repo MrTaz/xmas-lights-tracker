@@ -57,6 +57,8 @@ async function loadData(){
       getlatLngFromAddress(house.full_address).then((latLng)=>{
         houseMarker.setPosition(latLng);
         newMapMarkers.push(houseMarker);
+        let content = "This is a test";
+        addInfoWindow(houseMarker, latLng, content);
       });
     }else{
       houseMarker.setPosition(house.latlng);
