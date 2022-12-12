@@ -310,7 +310,7 @@ async function createMarker(latLng, house, isUserMarker) {
       // addInfoWindow(marker, latLng, content);
       // newMapMarkers.push(marker);
 
-      let avgStarRating = await loadAvgStarRating(newMapMarkers[newMapMarkerCounter].houseId) || 0;
+      let avgStarRating = await loadAvgStarRating(marker.houseId) || 0;
       let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
 
       let content = `Loaded location: <br/>
