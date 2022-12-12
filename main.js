@@ -308,7 +308,7 @@ async function createMarker(latLng, house, isUserMarker) {
 
       // let content = placeResult.name+'<br/>'+placeResult.vicinity+'<br/>'+placeResult.types;
       // addInfoWindow(marker, latLng, content);
-      newMapMarkers.push(marker);
+      // newMapMarkers.push(marker);
 
       let avgStarRating = await loadAvgStarRating(newMapMarkers[newMapMarkerCounter].houseId) || 0;
       let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
@@ -320,6 +320,7 @@ async function createMarker(latLng, house, isUserMarker) {
         ${getStarComponent(newMapMarkerCounter, avgStarRating)}
         ${inputForm(newMapMarkerCounter)}`;
       
+      newMapMarkers.push(marker);
       addInfoWindow(marker, latLng, content, true);
     } else { 
       // console.log(`Receieved latLng:`, latLng.lat(), latLng.lng());
