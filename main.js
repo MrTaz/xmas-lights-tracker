@@ -266,7 +266,7 @@ function followUserMarkerLocation(latLng){
 }
 
 
-async function createMarker(latLng, house, isUserMarker) {
+function createMarker(latLng, house, isUserMarker) {
 	newMapMarkerCounter++;
   if (isUserMarker && !userMarker) {
     userMarker = new google.maps.Marker({
@@ -310,18 +310,20 @@ async function createMarker(latLng, house, isUserMarker) {
       // addInfoWindow(marker, latLng, content);
       // newMapMarkers.push(marker);
 
-      let avgStarRating = await loadAvgStarRating(marker.houseId) || 0;
-      let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
+      loadAvgStarRating(marker.houseId).then((avgStarRating)=>{
+        avgStarRating = (avgStarRating)?avgStarRating:0;
+        let removeMakerLink = `<a href="#" onclick='removeMarker(${newMapMarkerCounter});'>Remove marker</a>`;
 
-      let content = `Loaded location: <br/>
-        ${marker.address.house_num} ${marker.address.street}, <br/>
-        ${marker.address.city}, ${marker.address.state} <br/>
-        <p>${removeMakerLink}</p>
-        ${getStarComponent(newMapMarkerCounter, avgStarRating)}
-        ${inputForm(newMapMarkerCounter)}`;
+        let content = `Loaded location: <br/>
+          ${marker.address.house_num} ${marker.address.street}, <br/>
+          ${marker.address.city}, ${marker.address.state} <br/>
+          <p>${removeMakerLink}</p>
+          ${getStarComponent(newMapMarkerCounter, avgStarRating)}
+          ${inputForm(newMapMarkerCounter)}`;
       
-      newMapMarkers.push(marker);
-      addInfoWindow(marker, latLng, content, true);
+        newMapMarkers.push(marker);
+        addInfoWindow(marker, latLng, content, true);
+      });
     } else { 
       // console.log(`Receieved latLng:`, latLng.lat(), latLng.lng());
       fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latLng.lat()}&lon=${latLng.lng()}&namedetails=1`)
