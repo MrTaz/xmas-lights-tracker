@@ -10,11 +10,19 @@ let followTheUser = true;
 let ALL_LOADED_HOUSES = null;
 
 async function signInWithEmail() {
-  const { data, error } = await supabase.auth.signInWithOtp({
-    email: 'example@email.com',
-    options: {
+  const { data, error } = await _supabase.auth.signInWithOtp(()=>{
+    if(!localStorage.email){
+      const loginModal = new bootstrap.Modal(document.getElementById("#loginModal"));
+      loginModal.show();
+      loginModal.addEventListener('hidden.bs.modal', event => {
+        // error = "User did not provide email address for login."
+      });
+    }
+    let email = localStorage.email;
+    let options = {
       emailRedirectTo: 'https://mrtaz.github.io/xmas-lights-tracker/',
-    },
+    };
+    return {email, options};
   })
 }
 
