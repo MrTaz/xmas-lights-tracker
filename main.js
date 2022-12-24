@@ -9,6 +9,15 @@ let activeInfoWindow;
 let followTheUser = true;
 let ALL_LOADED_HOUSES = null;
 
+async function signInWithEmail() {
+  const { data, error } = await supabase.auth.signInWithOtp({
+    email: 'example@email.com',
+    options: {
+      emailRedirectTo: 'https://mrtaz.github.io/xmas-lights-tracker/',
+    },
+  })
+}
+
 function showError(error) {
   switch(error.code) {
     case error.PERMISSION_DENIED:
