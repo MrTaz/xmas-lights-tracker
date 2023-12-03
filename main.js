@@ -77,10 +77,10 @@ async function storeData(dataIn){
   // });
   console.log("Data in marker array:", data);
 
-  if(data.house_num && data.street && data.city_town && data.state){
+  if(data.house_number && data.street && data.city_town && data.state){
     //if loaded data and using dataIn, then we need to create the address object
     data.address = {
-      house_num: data.house_num,
+      house_num: data.house_number,
       street: data.street,
       city: data.city_town,
       state: data.state
