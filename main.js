@@ -181,7 +181,7 @@ async function loadAvgStarRating(houseId){
   let avgStarRating = 0;
   try{
     let { data: selectStarRatings, error: selectStarRatingsError } = await _supabase.from('ratings').select("rating").eq("house_id",houseId);
-    if(selectStarRatingsError) console.warn("Error when selecting star ratings:", selectStarRatingsError);
+    if(selectStarRatingsError) throw error("Error when selecting star ratings:", selectStarRatingsError);
     console.log("Ratings found:", selectStarRatings);
     avgStarRating = Math.round(selectStarRatings.reduce((r, c) => r + c.rating, 0) / selectStarRatings.length);
   } catch (error){
