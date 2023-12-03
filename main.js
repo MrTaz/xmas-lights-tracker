@@ -394,6 +394,7 @@ function inputForm(markerId){
   const loadedHouse = newMapMarkers.find(marker => {
     return marker.id === markerId;
   });
+  console.log("LoadedHouse: ", loadedHouse);
 	let inputFormHtml = `<form id="entry-form-${markerId}" action="">
       <div class="form-group">
         <input type="text" class="form-control form-control-xs" value="${(loadedHouse.lightTitle)?loadedHouse.lightTitle:""}" placeholder="Enter Title  or none" id="title-${markerId}" />
