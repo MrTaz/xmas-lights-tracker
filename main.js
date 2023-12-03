@@ -80,17 +80,17 @@ async function storeData(dataIn){
   if(data.house_number && data.street && data.city_town && data.state){
     //if loaded data and using dataIn, then we need to create the address object
     data.address = {
-      house_num: data.house_number,
+      house_number: data.house_number,
       street: data.street,
       city: data.city_town,
       state: data.state
     };
   }
-  if(data.address.house_num && data.address.street && data.address.city && data.address.state){
+  if(data.address.house_number && data.address.street && data.address.city && data.address.state){
     let st_address, city_town, state, full_address, house_num, street;
-    house_num = data.address.house_num;
+    house_num = data.address.house_number;
     street = data.address.street;
-    st_address = `${data.address.house_num} ${data.address.street}`;
+    st_address = `${data.address.house_number} ${data.address.street}`;
     city_town = data.address.city;
     switch(data.address.state){
       case "New Hampshire":
